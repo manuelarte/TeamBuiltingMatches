@@ -1,4 +1,4 @@
-package org.manuel.teambuilting.core.config;
+package org.manuel.teambuilting.matches.config;
 
 import org.manuel.teambuilting.exceptions.ExceptionMessage;
 import org.manuel.teambuilting.exceptions.ValidationRuntimeException;

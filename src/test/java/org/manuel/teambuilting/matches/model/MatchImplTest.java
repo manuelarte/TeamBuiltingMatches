@@ -13,6 +13,7 @@ import org.manuel.teambuilting.matches.model.team.UnRegisteredTeamInfo;
 
 import java.math.BigInteger;
 import java.time.Duration;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,7 +35,9 @@ public class MatchImplTest {
         final PlayerInfo awayPlayerOne = UnRegisteredPlayerInfo.builder().name("UnRegistered Player").build();
         final TeamInMatch awayTeam = TeamInMatch.builder().teamInfo(awayTeamInfo).selectedPlayer(awayPlayerOne).build();
 
-        final MatchPart part = MatchPartImpl.builder().events(new ArrayList<>()).duration(Duration.ofMinutes(45)).build();
+        final Instant startingTime = Instant.now();
+        final Duration duration = Duration.ofMinutes(45);
+        final MatchPart part = MatchPartImpl.builder().startingTime(startingTime).events(new ArrayList<>()).duration(duration).build();
 
         final Match match = MatchImpl.builder().homeTeam(homeTeam).awayTeam(awayTeam).matchPart(part).build();
         assertTrue(part.getDuration().compareTo(match.getDuration()) == 0);
@@ -50,11 +53,22 @@ public class MatchImplTest {
         final PlayerInfo awayPlayerOne = UnRegisteredPlayerInfo.builder().name("UnRegistered Player").build();
         final TeamInMatch awayTeam = TeamInMatch.builder().teamInfo(awayTeamInfo).selectedPlayer(awayPlayerOne).build();
 
-        final MatchPart part = MatchPartImpl.builder().events(new ArrayList<>()).duration(Duration.ofMinutes(45)).build();
-        final MatchPart part2 = MatchPartImpl.builder().events(new ArrayList<>()).duration(Duration.ofMinutes(45)).build();
+        final Instant startingTimePart = Instant.now();
+        final Duration durationPart = Duration.ofMinutes(45);
+
+        final Instant startingTimePart2 = startingTimePart.plus(durationPart.plus(Duration.ofMinutes(15)));
+        final Duration durationPart2 = Duration.ofMinutes(45);
+
+        final MatchPart part = MatchPartImpl.builder().startingTime(startingTimePart).duration(durationPart).events(new ArrayList<>()).build();
+        final MatchPart part2 = MatchPartImpl.builder().startingTime(startingTimePart2).duration(durationPart2).events(new ArrayList<>()).duration(Duration.ofMinutes(45)).build();
         final List<MatchPart> parts = Lists.newArrayList(part, part2);
 
         final Match match = MatchImpl.builder().homeTeam(homeTeam).awayTeam(awayTeam).matchParts(parts).build();
         assertTrue(Duration.ofMinutes(90).compareTo(match.getDuration()) == 0);
+    }
+
+    @Test
+    public void testConvertFromJson() {
+
     }
 }

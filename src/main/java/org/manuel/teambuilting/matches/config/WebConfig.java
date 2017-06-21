@@ -1,4 +1,4 @@
-package org.manuel.teambuilting.core.config;
+package org.manuel.teambuilting.matches.config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;

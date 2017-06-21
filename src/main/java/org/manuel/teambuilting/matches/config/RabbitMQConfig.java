@@ -1,4 +1,4 @@
-package org.manuel.teambuilting.core.config;
+package org.manuel.teambuilting.matches.config;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;

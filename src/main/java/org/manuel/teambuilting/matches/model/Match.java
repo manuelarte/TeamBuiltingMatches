@@ -1,5 +1,6 @@
 package org.manuel.teambuilting.matches.model;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import org.manuel.teambuilting.matches.model.parts.MatchPart;
 
 import java.time.Duration;
@@ -12,6 +13,7 @@ import java.util.List;
  * 
  * Interface for the Match
  */
+@JsonDeserialize(as = MatchImpl.class)
 public interface Match {
 	
 	String getId();

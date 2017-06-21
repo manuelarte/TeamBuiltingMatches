@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.manuel.teambuilting.core.config;
+package org.manuel.teambuilting.matches.config;
 
 import com.auth0.Auth0Client;
 import com.auth0.Auth0ClientImpl;
