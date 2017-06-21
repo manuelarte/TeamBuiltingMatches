@@ -3,6 +3,7 @@ package org.manuel.teambuilting.matches.model.parts;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 import com.mongodb.annotations.Immutable;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -15,7 +16,7 @@ import java.util.List;
 
 @JsonIgnoreProperties
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@JsonDeserialize
+@JsonDeserialize(builder = MatchPartImpl.MatchPartImplBuilder.class)
 @Immutable
 @Data
 @lombok.Builder
@@ -37,6 +38,11 @@ public class MatchPartImpl implements MatchPart {
 	@AssertTrue
 	public boolean durationHasLength() {
 		return duration.getSeconds() > 0;
+	}
+
+	@JsonPOJOBuilder(withPrefix = "")
+	public static class MatchPartImplBuilder {
+
 	}
 	
 }

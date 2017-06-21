@@ -10,6 +10,6 @@ import java.time.Instant;
  */
 public interface MatchEvent {
 	
-	Instant when();
+	Instant getWhen();
 
 }
