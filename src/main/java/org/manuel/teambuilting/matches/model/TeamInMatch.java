@@ -38,7 +38,7 @@ public class TeamInMatch {
 	 */
 	@Singular
 	private final Set<PlayerInfo> selectedPlayers;
-	
+
 	@JsonPOJOBuilder(withPrefix = "")
 	public static class TeamInMatchBuilder {
 		

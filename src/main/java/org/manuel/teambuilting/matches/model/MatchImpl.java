@@ -21,6 +21,8 @@ import java.time.Instant;
 import java.util.Comparator;
 import java.util.List;
 
+import static org.manuel.teambuilting.matches.util.Util.MAX_DURATION_OF_MATCH;
+
 @JsonIgnoreProperties
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonDeserialize(builder = MatchImpl.MatchImplBuilder.class)
@@ -76,6 +78,11 @@ public class MatchImpl implements Match {
     }
 
     @Override
+    public Instant getEndingTime() {
+        return getStartingTime().plus(getDuration());
+    }
+
+    @Override
 	public Duration getDuration() {
 		Duration totalDuration = Duration.ZERO;
 		for (MatchPart part : matchParts) {
@@ -97,8 +104,9 @@ public class MatchImpl implements Match {
         return true;
     }
 
-	private Instant getEndingTime() {
-        return getStartingTime().plus(getDuration());
+    @AssertTrue
+    public boolean checkMaxDuration() {
+        return getDuration().plus(MAX_DURATION_OF_MATCH).isNegative();
     }
 
     private Comparator<? super MatchPart> sortByStartingTime() {

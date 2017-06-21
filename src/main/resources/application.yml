@@ -3,7 +3,7 @@ info:
   description: Team Builting Matches Service, microservice to store everything related to the teams
 
 server:
-  port: ${PORT:8090}
+  port: ${PORT:8095}
 ---
 
 # Queue configuration

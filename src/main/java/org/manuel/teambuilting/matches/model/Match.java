@@ -20,6 +20,8 @@ public interface Match {
 
 	Instant getStartingTime();
 
+    Instant getEndingTime();
+
 	String getLocation();
 	
 	List<MatchPart> getMatchParts();

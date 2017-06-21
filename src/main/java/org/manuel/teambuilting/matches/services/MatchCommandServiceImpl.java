@@ -1,9 +1,14 @@
 package org.manuel.teambuilting.matches.services;
 
 import org.manuel.teambuilting.core.services.command.AbstractCommandService;
+import org.manuel.teambuilting.exceptions.ValidationRuntimeException;
 import org.manuel.teambuilting.matches.model.Match;
 import org.manuel.teambuilting.matches.repositories.MatchRepository;
 import org.springframework.stereotype.Component;
+
+import java.util.Set;
+
+import static org.manuel.teambuilting.exceptions.ErrorCode.ENTRY_OVERLAPS;
 
 /**
  * @author Manuel Doncel Martos
@@ -14,6 +19,15 @@ class MatchCommandServiceImpl extends AbstractCommandService<Match, String, Matc
 
     public MatchCommandServiceImpl(final MatchRepository repository) {
         super(repository);
+    }
+
+    @Override
+    protected void beforeSave(final Match matchToStore) {
+        // check that there is no overlap with a previously stored game
+        final Set<Match> overlappedMatches = repository.findByEndingTimeIsAfterAndEndingTimeIsBefore(matchToStore.getStartingTime(), matchToStore.getEndingTime());
+        if (!overlappedMatches.isEmpty()) {
+            throw new ValidationRuntimeException(ENTRY_OVERLAPS, matchToStore);
+        }
     }
 
 }
