@@ -5,8 +5,6 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 import com.mongodb.annotations.Immutable;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Singular;
 import org.manuel.teambuilting.matches.model.player.PlayerInfo;
@@ -21,7 +19,6 @@ import java.util.Set;
 @Immutable
 @Data
 @lombok.Builder
-@AllArgsConstructor(access = AccessLevel.PRIVATE)
 /**
  * @author Manuel Doncel Martos
  * @since 2017/06/17

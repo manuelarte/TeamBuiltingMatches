@@ -5,7 +5,6 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 import com.mongodb.annotations.Immutable;
-import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
@@ -17,7 +16,7 @@ import javax.validation.constraints.NotNull;
 @Immutable
 @Data
 @lombok.Builder
-@AllArgsConstructor(access = AccessLevel.PRIVATE)
+@AllArgsConstructor
 /**
  * @author Manuel Doncel Martos
  * @since 2017/06/17

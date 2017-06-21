@@ -3,6 +3,7 @@ package org.manuel.teambuilting.matches.model;
 import org.manuel.teambuilting.matches.model.parts.MatchPart;
 
 import java.time.Duration;
+import java.time.Instant;
 import java.util.List;
 
 /**
@@ -14,7 +15,9 @@ import java.util.List;
 public interface Match {
 	
 	String getId();
-	
+
+	Instant getStartingTime();
+
 	String getLocation();
 	
 	List<MatchPart> getMatchParts();

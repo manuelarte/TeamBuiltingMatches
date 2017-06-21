@@ -5,7 +5,6 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 import com.mongodb.annotations.Immutable;
-import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -20,7 +19,7 @@ import java.math.BigInteger;
 @Document
 @Data
 @lombok.Builder
-@AllArgsConstructor(access = AccessLevel.PRIVATE)
+@AllArgsConstructor
 public class RegisteredPlayerInfo implements PlayerInfo {
 
 	private final String id;

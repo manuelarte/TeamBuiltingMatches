@@ -1,5 +1,6 @@
 package org.manuel.teambuilting.matches.model;
 
+import org.junit.After;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.manuel.teambuilting.matches.model.parts.MatchPart;
@@ -17,7 +18,10 @@ import org.springframework.test.context.junit4.SpringRunner;
 import javax.inject.Inject;
 import java.math.BigInteger;
 import java.time.Duration;
+import java.time.Instant;
 import java.util.ArrayList;
+
+import static org.junit.Assert.assertEquals;
 
 /**
  * @author Manuel Doncel Martos
@@ -30,6 +34,11 @@ public class MatchImplTest {
     @Inject
     private MatchRepository matchRepository;
 
+    @After
+    public void afterEach() {
+        matchRepository.deleteAll();
+    }
+
     @Test
     public void testSaveSimpleGame() {
         final TeamInfo homeTeamInfo = RegisteredTeamInfo.builder().teamId("teamId").build();
@@ -40,9 +49,13 @@ public class MatchImplTest {
         final PlayerInfo awayPlayerOne = UnRegisteredPlayerInfo.builder().name("UnRegistered Player").build();
         final TeamInMatch awayTeam = TeamInMatch.builder().teamInfo(awayTeamInfo).selectedPlayer(awayPlayerOne).build();
 
-        final MatchPart part = MatchPartImpl.builder().events(new ArrayList<>()).duration(Duration.ofMinutes(45)).build();
+        final Instant startingTime = Instant.now();
+        final MatchPart part = MatchPartImpl.builder().startingTime(startingTime).duration(Duration.ofMinutes(45)).events(new ArrayList<>()).build();
 
         final Match match = MatchImpl.builder().homeTeam(homeTeam).awayTeam(awayTeam).matchPart(part).build();
         matchRepository.save(match);
+
+        final Match actual = matchRepository.findOne(match.getId());
+        assertEquals(match, actual);
     }
 }
