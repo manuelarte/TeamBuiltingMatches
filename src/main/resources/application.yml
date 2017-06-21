@@ -1,0 +1,63 @@
+info:
+  name: teambuiltingmatches
+  description: Team Builting Matches Service, microservice to store everything related to the teams
+
+server:
+  port: ${PORT:8090}
+---
+
+# Queue configuration
+messaging:
+  amqp:
+    team:
+      exchange:
+        name: TEAMBUILTING.E.TEAM
+        durable: true
+        autodelete: false
+    player:
+      exchange:
+        name: TEAMBUILTING.E.PLAYER
+        durable: true
+        autodelete: false
+
+google:
+  api:
+    key: ${GOOGLE_API_KEY:AIzaSyAJP4-9qXXF8h9bhp57IxGnlM9e6Tl5CHA}
+
+---
+
+spring:
+  profiles: production
+  data.mongodb:
+    database: teambuiltingmatches # Database name.
+    host: ${MONGODB_HOST:localhost} # Mongo server host.
+    port: ${MONGODB_PORT} # Mongo server port.
+    username: ${MONGODB_USERNAME} # Login user of the mongo server.
+    password: ${MONGODB_PASSWORD} # Login password of the mongo server.
+    repositories.enabled: true # Enable Mongo repositories.
+  rabbitmq:
+      host: ${RABBITMQ_HOST:localhost}
+      virtual-host: ${RABBITMQ_VIRTUAL_HOST}
+      username: ${RABBITMQ_USERNAME:guest}
+      password: ${RABBITMQ_PASSWORD:guest}
+
+---
+
+endpoints:
+  enabled: true # Enable endpoints.
+  actuator.enabled: true # Enable the endpoint.
+
+---
+
+auth0:
+  domain: manuelarte.eu.auth0.com
+  issuer: https://manuelarte.eu.auth0.com/
+  clientId: XOBz4RdzWoMnpxAvXKtK9R8W9IODYKsl
+  clientSecret: tvKvKZd1tigVIAGztcOELwKIj0B0DswEbLdRG1PWu7NfZXk6VGbGkWdQjFpTZmWp
+  securedRoute: NOT_USED
+  base64EncodedSecret: true
+  authorityStrategy: ROLES
+  defaultAuth0ApiSecurityEnabled: false
+  signingAlgorithm: HS256
+  #signingAlgorithm: RS256
+  #publicKeyPath: certificate/cert.pem
