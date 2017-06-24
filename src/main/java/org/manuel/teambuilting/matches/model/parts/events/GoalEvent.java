@@ -8,7 +8,6 @@ import com.mongodb.annotations.Immutable;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import org.manuel.teambuilting.matches.model.parts.MatchEvent;
 import org.manuel.teambuilting.matches.model.player.PlayerInfo;
 import org.manuel.teambuilting.matches.model.team.TeamInfo;
 
@@ -30,8 +29,14 @@ public class GoalEvent implements MatchEvent{
 
     private final Instant when;
 
+    /**
+     * Who scored the goal
+     */
     private final PlayerInfo who;
 
+    /**
+     * The team that scored the goal
+     */
     @NotNull
     private final TeamInfo teamWhoScored;
 

@@ -5,6 +5,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.manuel.teambuilting.matches.model.parts.MatchPart;
 import org.manuel.teambuilting.matches.model.parts.MatchPartImpl;
+import org.manuel.teambuilting.matches.model.parts.events.MatchEvent;
 import org.manuel.teambuilting.matches.model.player.PlayerInfo;
 import org.manuel.teambuilting.matches.model.player.RegisteredPlayerInfo;
 import org.manuel.teambuilting.matches.model.player.UnRegisteredPlayerInfo;
@@ -20,6 +21,7 @@ import java.math.BigInteger;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 
@@ -50,7 +52,8 @@ public class MatchImplTest {
         final TeamInMatch awayTeam = TeamInMatch.builder().teamInfo(awayTeamInfo).selectedPlayer(awayPlayerOne).build();
 
         final Instant startingTime = Instant.now();
-        final MatchPart part = MatchPartImpl.builder().startingTime(startingTime).duration(Duration.ofMinutes(45)).events(new ArrayList<>()).build();
+        final List<MatchEvent> matchEvents = new ArrayList<>();
+        final MatchPart part = MatchPartImpl.builder().startingTime(startingTime).duration(Duration.ofMinutes(45)).events(matchEvents).build();
 
         final Match match = MatchImpl.builder().homeTeam(homeTeam).awayTeam(awayTeam).matchPart(part).build();
         matchRepository.save(match);

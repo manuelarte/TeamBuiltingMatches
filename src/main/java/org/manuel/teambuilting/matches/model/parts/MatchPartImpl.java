@@ -8,7 +8,7 @@ import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 import com.mongodb.annotations.Immutable;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.Singular;
+import org.manuel.teambuilting.matches.model.parts.events.MatchEvent;
 
 import javax.validation.Valid;
 import javax.validation.constraints.AssertTrue;
@@ -44,15 +44,16 @@ public class MatchPartImpl implements MatchPart {
 	
 	@NotNull
     @Valid
-    @Singular
 	private final List<MatchEvent> events;
 
 	@AssertTrue
+    @SuppressWarnings("unused")
 	public boolean durationHasLength() {
 		return duration.getSeconds() > 0;
 	}
 
     @AssertTrue
+    @SuppressWarnings("unused")
     public boolean eventsAndDurationMatch() {
         final List<MatchEvent> eventNotInMatchTime = events.stream().filter(event -> Optional.ofNullable(event.getWhen()).isPresent()
                 && eventIsNotBetweenMatchTime(event)).collect(Collectors.toList());

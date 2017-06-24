@@ -8,7 +8,6 @@ import com.mongodb.annotations.Immutable;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import org.manuel.teambuilting.matches.model.parts.MatchEvent;
 import org.manuel.teambuilting.matches.model.player.PlayerInfo;
 
 import javax.validation.constraints.AssertTrue;

@@ -4,6 +4,7 @@ import com.google.common.collect.Lists;
 import org.junit.jupiter.api.Test;
 import org.manuel.teambuilting.matches.model.parts.MatchPart;
 import org.manuel.teambuilting.matches.model.parts.MatchPartImpl;
+import org.manuel.teambuilting.matches.model.parts.events.MatchEvent;
 import org.manuel.teambuilting.matches.model.player.PlayerInfo;
 import org.manuel.teambuilting.matches.model.player.RegisteredPlayerInfo;
 import org.manuel.teambuilting.matches.model.player.UnRegisteredPlayerInfo;
@@ -37,7 +38,8 @@ public class MatchImplTest {
 
         final Instant startingTime = Instant.now();
         final Duration duration = Duration.ofMinutes(45);
-        final MatchPart part = MatchPartImpl.builder().startingTime(startingTime).events(new ArrayList<>()).duration(duration).build();
+        final List<MatchEvent> matchEvents = new ArrayList<>();
+        final MatchPart part = MatchPartImpl.builder().startingTime(startingTime).events(matchEvents).duration(duration).build();
 
         final Match match = MatchImpl.builder().homeTeam(homeTeam).awayTeam(awayTeam).matchPart(part).build();
         assertTrue(part.getDuration().compareTo(match.getDuration()) == 0);
@@ -59,8 +61,9 @@ public class MatchImplTest {
         final Instant startingTimePart2 = startingTimePart.plus(durationPart.plus(Duration.ofMinutes(15)));
         final Duration durationPart2 = Duration.ofMinutes(45);
 
-        final MatchPart part = MatchPartImpl.builder().startingTime(startingTimePart).duration(durationPart).events(new ArrayList<>()).build();
-        final MatchPart part2 = MatchPartImpl.builder().startingTime(startingTimePart2).duration(durationPart2).events(new ArrayList<>()).duration(Duration.ofMinutes(45)).build();
+        final List<MatchEvent> matchEvents = new ArrayList<>();
+        final MatchPart part = MatchPartImpl.builder().startingTime(startingTimePart).duration(durationPart).events(matchEvents).build();
+        final MatchPart part2 = MatchPartImpl.builder().startingTime(startingTimePart2).duration(durationPart2).events(matchEvents).duration(Duration.ofMinutes(45)).build();
         final List<MatchPart> parts = Lists.newArrayList(part, part2);
 
         final Match match = MatchImpl.builder().homeTeam(homeTeam).awayTeam(awayTeam).matchParts(parts).build();
