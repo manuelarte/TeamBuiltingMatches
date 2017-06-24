@@ -10,6 +10,7 @@ import lombok.Data;
 import lombok.Singular;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.manuel.teambuilting.matches.model.parts.MatchPart;
+import org.manuel.teambuilting.matches.model.team.RegisteredTeamInfo;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -107,6 +108,11 @@ public class MatchImpl implements Match {
     @AssertTrue
     public boolean checkMaxDuration() {
         return getDuration().plus(MAX_DURATION_OF_MATCH).isNegative();
+    }
+
+    @AssertTrue
+    public boolean atLeastOneTeamIsRegistered() {
+        return homeTeam.getTeamInfo() instanceof RegisteredTeamInfo || awayTeam.getTeamInfo() instanceof RegisteredTeamInfo;
     }
 
     private Comparator<? super MatchPart> sortByStartingTime() {
