@@ -23,6 +23,7 @@ import java.time.Duration;
 import java.time.Instant;
 import java.util.Arrays;
 import java.util.List;
+import java.util.UUID;
 
 import static org.junit.Assert.assertEquals;
 
@@ -44,8 +45,11 @@ public class MatchImplTest {
 
     @Test
     public void testSaveSimpleGame() {
-        final TeamInfo homeTeamInfo = RegisteredTeamInfo.builder().teamId("teamId").build();
-        final PlayerInfo homePlayerOne = RegisteredPlayerInfo.builder().playerId(BigInteger.ONE).build();
+        final String teamInfoId = UUID.randomUUID().toString();
+        final TeamInfo homeTeamInfo = RegisteredTeamInfo.builder().id(teamInfoId).teamId("teamId").build();
+
+        final String playerInfoId = UUID.randomUUID().toString();
+        final PlayerInfo homePlayerOne = RegisteredPlayerInfo.builder().id(playerInfoId).playerId(BigInteger.ONE).build();
         final TeamInMatch homeTeam = TeamInMatch.builder().teamInfo(homeTeamInfo).selectedPlayer(homePlayerOne).build();
 
         final TeamInfo awayTeamInfo = UnRegisteredTeamInfo.builder().name("UnRegistered Team").build();
@@ -55,7 +59,7 @@ public class MatchImplTest {
         final Instant startingTime = Instant.now();
 
         final MatchEvent firstGoalEvent = GoalEvent.builder().when(startingTime.plus(Duration.ofMinutes(5)))
-                .teamWhoScored(homeTeam.getTeamInfo()).build();
+                .teamWhoScored(homeTeam.getTeamInfo().getId()).build();
         final List<MatchEvent> matchEvents = Arrays.asList(firstGoalEvent);
 
 

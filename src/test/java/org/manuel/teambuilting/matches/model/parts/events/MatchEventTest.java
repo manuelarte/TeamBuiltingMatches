@@ -14,6 +14,7 @@ import java.math.BigInteger;
 import java.time.Instant;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -28,9 +29,13 @@ public class MatchEventTest {
     @Test
     public void testSeserializeGoalEvent() throws JsonProcessingException {
         final Instant when = Instant.now();
-        final PlayerInfo who = RegisteredPlayerInfo.builder().playerId(BigInteger.ONE).build();
-        final TeamInfo teamWhoScored = RegisteredTeamInfo.builder().teamId("teamId").build();
-        final MatchEvent matchEvent = GoalEvent.builder().when(when).who(who).teamWhoScored(teamWhoScored).build();
+
+        final String playerInfoId = UUID.randomUUID().toString();
+        final PlayerInfo who = RegisteredPlayerInfo.builder().id(playerInfoId).playerId(BigInteger.ONE).build();
+
+        final String teamInfoId = UUID.randomUUID().toString();
+        final TeamInfo teamWhoScored = RegisteredTeamInfo.builder().id(teamInfoId).teamId("teamId").build();
+        final MatchEvent matchEvent = GoalEvent.builder().when(when).who(who.getId()).teamWhoScored(teamWhoScored.getId()).build();
 
         final String matchEventJson = mapper.writeValueAsString(matchEvent);
         //assertTrue(goalEvent instanceof GoalEvent);
@@ -43,9 +48,12 @@ public class MatchEventTest {
     @Test
     public void testDeserializeGoalEvent() throws IOException {
         final Instant when = Instant.now();
-        final PlayerInfo who = RegisteredPlayerInfo.builder().playerId(BigInteger.ONE).build();
-        final TeamInfo teamWhoScored = RegisteredTeamInfo.builder().teamId("teamId").build();
-        final GoalEvent goalEventExpected = GoalEvent.builder().when(when).teamWhoScored(teamWhoScored).who(who).build();
+        final String playerInfoId = UUID.randomUUID().toString();
+        final PlayerInfo who = RegisteredPlayerInfo.builder().id(playerInfoId).playerId(BigInteger.ONE).build();
+
+        final String teamInfoId = UUID.randomUUID().toString();
+        final TeamInfo teamWhoScored = RegisteredTeamInfo.builder().id(teamInfoId).teamId("teamId").build();
+        final GoalEvent goalEventExpected = GoalEvent.builder().when(when).teamWhoScored(teamWhoScored.getId()).who(who.getId()).build();
 
         final JSONObject json = createJsonObjectFrom(goalEventExpected);
         final MatchEvent actual = mapper.readValue(json.toString(), MatchEvent.class);

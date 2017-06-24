@@ -17,10 +17,7 @@ import org.manuel.teambuilting.matches.model.team.TeamInfo;
 import java.math.BigInteger;
 import java.time.Duration;
 import java.time.Instant;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -59,8 +56,9 @@ public class MatchPartImplTest {
         final Instant startingTime = Instant.now();
         final Duration duration = Duration.ofMinutes(45);
 
-        final TeamInfo teamInfo = RegisteredTeamInfo.builder().teamId("teamId").build();
-        final GoalEvent goalEvent = GoalEvent.builder().when(Instant.now()).teamWhoScored(teamInfo).build();
+        final String teamInfoId = UUID.randomUUID().toString();
+        final TeamInfo teamInfo = RegisteredTeamInfo.builder().id(teamInfoId).teamId("teamId").build();
+        final GoalEvent goalEvent = GoalEvent.builder().when(Instant.now()).teamWhoScored(teamInfo.getId()).build();
         final List<MatchEvent> matchEvents = Arrays.asList(goalEvent);
 
         final MatchPart matchPart = MatchPartImpl.builder().startingTime(startingTime).duration(duration).events(matchEvents).build();
@@ -78,11 +76,13 @@ public class MatchPartImplTest {
         final Instant startingTime = Instant.now();
         final Duration duration = Duration.ofMinutes(45);
 
+        final String teamInfoId = UUID.randomUUID().toString();
         final TeamInfo teamInfo = RegisteredTeamInfo.builder().teamId("teamId").build();
-        final MatchEvent goalEvent = GoalEvent.builder().when(Instant.now()).teamWhoScored(teamInfo).build();
+        final MatchEvent goalEvent = GoalEvent.builder().when(Instant.now()).teamWhoScored(teamInfo.getId()).build();
 
-        PlayerInfo playerInfo = RegisteredPlayerInfo.builder().playerId(BigInteger.ONE).build();
-        final MatchEvent substitutionEvent = SubstitutionEvent.builder().when(Instant.now()).in(playerInfo).build();
+        final String playerInfoId = UUID.randomUUID().toString();
+        final PlayerInfo playerInfo = RegisteredPlayerInfo.builder().playerId(BigInteger.ONE).build();
+        final MatchEvent substitutionEvent = SubstitutionEvent.builder().when(Instant.now()).in(playerInfo.getId()).build();
         final List<MatchEvent> matchEvents = Arrays.asList(goalEvent, substitutionEvent);
 
         final MatchPart matchPart = MatchPartImpl.builder().startingTime(startingTime).duration(duration).events(matchEvents).build();
@@ -100,9 +100,10 @@ public class MatchPartImplTest {
         final Instant startingTime = Instant.now();
         final Duration duration = Duration.ofMinutes(45);
 
-        final TeamInfo teamInfo = RegisteredTeamInfo.builder().teamId("teamId").build();
-        final MatchEvent goalEvent = GoalEvent.builder().when(Instant.now()).teamWhoScored(teamInfo).build();
-        final MatchEvent secondGoalEvent = GoalEvent.builder().when(Instant.now()).teamWhoScored(teamInfo).build();
+        final String teamInfoId = UUID.randomUUID().toString();
+        final TeamInfo teamInfo = RegisteredTeamInfo.builder().id(teamInfoId).teamId("teamId").build();
+        final MatchEvent goalEvent = GoalEvent.builder().when(Instant.now()).teamWhoScored(teamInfo.getId()).build();
+        final MatchEvent secondGoalEvent = GoalEvent.builder().when(Instant.now()).teamWhoScored(teamInfo.getId()).build();
         final List<MatchEvent> matchEvents = Arrays.asList(goalEvent, secondGoalEvent);
 
         final MatchPart matchPart = MatchPartImpl.builder().startingTime(startingTime).duration(duration).events(matchEvents).build();

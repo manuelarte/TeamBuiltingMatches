@@ -7,6 +7,7 @@ import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 import com.mongodb.annotations.Immutable;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import org.hibernate.validator.constraints.NotEmpty;
 
 @JsonIgnoreProperties
 @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -24,8 +25,10 @@ import lombok.Data;
  */
 public class UnRegisteredTeamInfo implements TeamInfo {
 
+	@NotEmpty
 	private final String id;
-	
+
+	@NotEmpty
 	private final String name;
 
 	@JsonPOJOBuilder(withPrefix = "")

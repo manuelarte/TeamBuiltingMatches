@@ -10,6 +10,7 @@ import lombok.Singular;
 import org.manuel.teambuilting.matches.model.player.PlayerInfo;
 import org.manuel.teambuilting.matches.model.team.TeamInfo;
 
+import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import java.util.Set;
 
@@ -31,12 +32,14 @@ public class TeamInMatch {
 	 * Info of the team
 	 */
 	@NotNull
+    @Valid
 	private final TeamInfo teamInfo;
 	
 	/**
 	 * The players that are called up for the game 
 	 */
 	@Singular
+    @Valid
 	private final Set<PlayerInfo> selectedPlayers;
 
 	@JsonPOJOBuilder(withPrefix = "")

@@ -12,6 +12,6 @@ import org.manuel.teambuilting.matches.deserializers.TeamInfoDeserializer;
 @JsonDeserialize(using = TeamInfoDeserializer.class)
 public interface TeamInfo {
 
-	String getId();
+    String getId();
 	
 }

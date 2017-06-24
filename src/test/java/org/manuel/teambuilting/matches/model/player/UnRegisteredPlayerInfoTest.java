@@ -15,6 +15,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class UnRegisteredPlayerInfoTest {
 
+	private static final ObjectMapper mapper = new ObjectMapper().findAndRegisterModules();
+
 	@Test
 	public void testBuilder() {
 		final String id = UUID.randomUUID().toString();
@@ -25,7 +27,6 @@ public class UnRegisteredPlayerInfoTest {
 	
 	@Test
 	public void testConvertToJson() throws JsonProcessingException {
-		final ObjectMapper mapper = new ObjectMapper();
 		final String id = UUID.randomUUID().toString();
 		final String playerName = UUID.randomUUID().toString();
 		final UnRegisteredPlayerInfo knownPlayer = UnRegisteredPlayerInfo.builder().id(id).name(playerName).build();
@@ -39,7 +40,6 @@ public class UnRegisteredPlayerInfoTest {
 	public void testJsonToObject() throws IOException {
 		final String id = UUID.randomUUID().toString();
 		final String playerName = UUID.randomUUID().toString();
-		final ObjectMapper mapper = new ObjectMapper();
 		final Map<String, String> map = new HashMap<>();
 		map.put("name", playerName);
 		map.put("id", id);

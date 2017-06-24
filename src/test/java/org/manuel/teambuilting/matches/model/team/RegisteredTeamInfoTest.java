@@ -15,6 +15,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class RegisteredTeamInfoTest {
 
+	private static final ObjectMapper mapper = new ObjectMapper().findAndRegisterModules();
+
 	@Test
 	public void testBuilder() {
 		final String id = UUID.randomUUID().toString();
@@ -25,7 +27,6 @@ public class RegisteredTeamInfoTest {
 	
 	@Test
 	public void testConvertToJson() throws JsonProcessingException {
-		final ObjectMapper mapper = new ObjectMapper();
 		final String id = UUID.randomUUID().toString();
 		final String teamId = UUID.randomUUID().toString();
 		final RegisteredTeamInfo knownPlayer = RegisteredTeamInfo.builder().id(id).teamId(teamId).build();
@@ -40,7 +41,6 @@ public class RegisteredTeamInfoTest {
 	public void testJsonToObject() throws IOException {
 		final String id = UUID.randomUUID().toString();
 		final String teamId = UUID.randomUUID().toString();
-		final ObjectMapper mapper = new ObjectMapper();
 		final Map<String, String> map = new HashMap<>();
 		map.put("teamId", teamId);
 		map.put("id", id);

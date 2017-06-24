@@ -45,12 +45,10 @@ public class RabbitMQConfig  {
 
     @Bean(name = "eventMessageConverter")
     public MessageConverter messageConverter() {
-        final Jackson2JsonMessageConverter converter = new Jackson2JsonMessageConverter();
-        // Jackson deserialization point issue
-        final ObjectMapper jsonObjectMapper = new ObjectMapper();
+        final ObjectMapper jsonObjectMapper = new ObjectMapper().findAndRegisterModules();
         jsonObjectMapper.configure(DeserializationFeature.ACCEPT_FLOAT_AS_INT, false);
         jsonObjectMapper.setDateFormat(new SimpleDateFormat(TIMESTAMP_FORMAT));
-        converter.setJsonObjectMapper(jsonObjectMapper);
+	    final Jackson2JsonMessageConverter converter = new Jackson2JsonMessageConverter(jsonObjectMapper);
         return converter;
     }
 

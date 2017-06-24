@@ -4,16 +4,12 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.json.JSONObject;
 import org.junit.jupiter.api.Test;
-import org.manuel.teambuilting.matches.model.player.PlayerInfo;
-import org.manuel.teambuilting.matches.model.player.RegisteredPlayerInfo;
-import org.manuel.teambuilting.matches.model.team.RegisteredTeamInfo;
-import org.manuel.teambuilting.matches.model.team.TeamInfo;
 
 import java.io.IOException;
-import java.math.BigInteger;
 import java.time.Instant;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -28,8 +24,8 @@ public class GoalEventTest {
 
     @Test
     public void testSerializeGoalEvent() throws JsonProcessingException {
-        final TeamInfo teamInfo = RegisteredTeamInfo.builder().teamId("teamId").build();
-        final GoalEvent goalEvent = GoalEvent.builder().when(Instant.now()).teamWhoScored(teamInfo).build();
+        final String teamWhoScored = UUID.randomUUID().toString();
+        final GoalEvent goalEvent = GoalEvent.builder().when(Instant.now()).teamWhoScored(teamWhoScored).build();
         final JSONObject json = new JSONObject(mapper.writeValueAsString(goalEvent));
         final String goalFieldName = MatchEventType.GOAL.value();
         assertTrue(json.has(goalFieldName));
@@ -38,8 +34,8 @@ public class GoalEventTest {
     @Test
     public void testDeserializeGoalEvent() throws IOException {
         final Instant when = Instant.now();
-        final PlayerInfo who = RegisteredPlayerInfo.builder().playerId(BigInteger.ONE).build();
-        final TeamInfo teamWhoScored = RegisteredTeamInfo.builder().teamId("teamId").build();
+        final String who = UUID.randomUUID().toString();
+        final String teamWhoScored = UUID.randomUUID().toString();
         final GoalEvent goalEventExpected = GoalEvent.builder().when(when).teamWhoScored(teamWhoScored).who(who).build();
 
         final JSONObject json = createJsonObjectFrom(goalEventExpected);

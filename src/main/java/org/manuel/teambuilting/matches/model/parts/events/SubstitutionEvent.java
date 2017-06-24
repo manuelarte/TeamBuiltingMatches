@@ -7,7 +7,6 @@ import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 import com.mongodb.annotations.Immutable;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import org.manuel.teambuilting.matches.model.player.PlayerInfo;
 
 import javax.validation.constraints.AssertTrue;
 import java.time.Instant;
@@ -27,9 +26,15 @@ public class SubstitutionEvent implements MatchEvent {
 
     private final Instant when;
 
-    private final PlayerInfo in;
+    /**
+     * Id of the playerInfo who comes in
+     */
+    private final String in;
 
-    private final PlayerInfo out;
+    /**
+     * Id of the PlayerInfo who comes out
+     */
+    private final String out;
 
     private final String description;
 

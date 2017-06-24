@@ -7,10 +7,8 @@ import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 import com.mongodb.annotations.Immutable;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import org.manuel.teambuilting.matches.model.player.PlayerInfo;
-import org.manuel.teambuilting.matches.model.team.TeamInfo;
+import org.hibernate.validator.constraints.NotEmpty;
 
-import javax.validation.constraints.NotNull;
 import java.time.Instant;
 
 @JsonIgnoreProperties
@@ -29,15 +27,15 @@ public class GoalEvent implements MatchEvent{
     private final Instant when;
 
     /**
-     * Who scored the goal
+     * Id of the PlayerInfo who scored the goal
      */
-    private final PlayerInfo who;
+    private final String who;
 
     /**
      * The team that scored the goal
      */
-    @NotNull
-    private final TeamInfo teamWhoScored;
+    @NotEmpty
+    private final String teamWhoScored;
 
     private final String description;
 

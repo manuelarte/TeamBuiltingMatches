@@ -7,6 +7,7 @@ import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 import com.mongodb.annotations.Immutable;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.validation.constraints.NotNull;
 
@@ -25,6 +26,7 @@ import javax.validation.constraints.NotNull;
  */
 public class RegisteredTeamInfo implements TeamInfo {
 
+	@NotEmpty
 	private final String id;
 	
 	@NotNull
