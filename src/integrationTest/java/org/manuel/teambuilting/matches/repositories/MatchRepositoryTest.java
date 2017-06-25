@@ -45,7 +45,7 @@ public class MatchRepositoryTest {
     @Test
     public void testRetrieveMatchesBetweenTwoSameInstantsNoPreviousRecords() {
         final Date date = new Date();
-        final Set<Match> matchesBetweenTwoInstants = matchRepository.findByEndingTimeIsBetween(date, date);
+        final Set<Match> matchesBetweenTwoInstants = matchRepository.findByMatchPartsStartingTimeIsBetween(date, date);
         assertTrue(matchesBetweenTwoInstants.isEmpty());
     }
 
@@ -53,11 +53,11 @@ public class MatchRepositoryTest {
     public void testRetrieveMatchesBetweenTwoInstantsOneMatchInBetween() {
         final Date startingTime = new Date();
         final Duration duration = Duration.ofMinutes(45);
-        createAndSaveMatch(startingTime, duration);
+        final Match match = createAndSaveMatch(startingTime, duration);
 
-        final Date startingLookingDate = startingTime;
+        final Date startingLookingDate = new Date(startingTime.getTime() - 100);
         final Date endingLookingDate = new Date(startingLookingDate.getTime() + Duration.ofMinutes(90).toMillis());
-        final Set<Match> matchesBetweenTwoInstants = matchRepository.findByEndingTimeIsBetween(startingLookingDate, endingLookingDate);
+        final Set<Match> matchesBetweenTwoInstants = matchRepository.findByMatchPartsStartingTimeIsBetween(startingLookingDate, endingLookingDate);
         assertTrue(matchesBetweenTwoInstants.size() == 1);
     }
 

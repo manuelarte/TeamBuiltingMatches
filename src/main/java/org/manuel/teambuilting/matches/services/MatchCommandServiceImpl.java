@@ -24,7 +24,7 @@ class MatchCommandServiceImpl extends AbstractCommandService<Match, String, Matc
     @Override
     protected void beforeSave(final Match matchToStore) {
         // check that there is no overlap with a previously stored game
-        final Set<Match> overlappedMatches = repository.findByEndingTimeIsBetween(matchToStore.getStartingTime(), matchToStore.getEndingTime());
+        final Set<Match> overlappedMatches = repository.findByMatchPartsStartingTimeIsBetween(matchToStore.getStartingTime(), matchToStore.getEndingTime());
         if (!overlappedMatches.isEmpty()) {
             throw new ValidationRuntimeException(ENTRY_OVERLAPS, matchToStore);
         }

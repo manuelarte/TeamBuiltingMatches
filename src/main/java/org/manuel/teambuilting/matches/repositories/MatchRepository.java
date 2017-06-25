@@ -20,6 +20,6 @@ public interface MatchRepository extends MongoRepository<Match, String> {
      * @param to
      * @return
      */
-    Set<Match> findByEndingTimeIsBetween(Date from, Date to);
+    Set<Match> findByMatchPartsStartingTimeIsBetween(Date from, Date to);
 
 }
