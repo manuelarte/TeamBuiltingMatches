@@ -9,7 +9,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import javax.validation.constraints.AssertTrue;
-import java.time.Instant;
+import java.util.Date;
 
 @JsonIgnoreProperties
 @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -24,7 +24,7 @@ import java.time.Instant;
  */
 public class SubstitutionEvent implements MatchEvent {
 
-    private final Instant when;
+    private final Date when;
 
     /**
      * Id of the playerInfo who comes in

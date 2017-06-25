@@ -13,9 +13,8 @@ import org.manuel.teambuilting.matches.model.parts.events.MatchEvent;
 import javax.validation.Valid;
 import javax.validation.constraints.AssertTrue;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Past;
 import java.time.Duration;
-import java.time.Instant;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -36,8 +35,7 @@ import java.util.stream.Collectors;
 public class MatchPartImpl implements MatchPart {
 
     @NotNull
-    @Past
-    private final Instant startingTime;
+    private final Date startingTime;
 
 	@NotNull
 	private final Duration duration;
@@ -61,14 +59,14 @@ public class MatchPartImpl implements MatchPart {
     }
 
     private boolean eventIsNotBetweenMatchTime(final MatchEvent event) {
-        final Instant when = event.getWhen();
-        return when.isBefore(startingTime) || when.isAfter(getEndingTime());
+        final Date when = event.getWhen();
+        return when.before(startingTime) || when.after(getEndingTime());
     }
 
     @Override
     @JsonIgnore
-    public Instant getEndingTime() {
-        return startingTime.plus(duration);
+    public Date getEndingTime() {
+        return new Date(startingTime.getTime() + duration.toMillis());
     }
 
 	@JsonPOJOBuilder(withPrefix = "")

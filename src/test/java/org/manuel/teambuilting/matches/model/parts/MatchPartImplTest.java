@@ -16,7 +16,6 @@ import org.manuel.teambuilting.matches.model.team.TeamInfo;
 
 import java.math.BigInteger;
 import java.time.Duration;
-import java.time.Instant;
 import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -32,7 +31,7 @@ public class MatchPartImplTest {
 
     @Test
     public void testBuilder() {
-        final Instant startingTime = Instant.now();
+        final Date startingTime = new Date();
         final Duration duration = Duration.ofMinutes(45);
         final List<MatchEvent> matchEvents = new ArrayList<>();
         final MatchPart matchPart = MatchPartImpl.builder().startingTime(startingTime).duration(duration).events(matchEvents).build();
@@ -42,7 +41,7 @@ public class MatchPartImplTest {
 
     @Test
     public void testConvertToJsonNoEvents() throws JsonProcessingException {
-        final Instant startingTime = Instant.now();
+        final Date startingTime = new Date();
         final Duration duration = Duration.ofMinutes(45);
         final List<MatchEvent> matchEvents = new ArrayList<>();
         final MatchPart matchPart = MatchPartImpl.builder().startingTime(startingTime).duration(duration).events(matchEvents).build();
@@ -53,12 +52,12 @@ public class MatchPartImplTest {
 
     @Test
     public void testConvertToJsonOneGoalEvent() throws JsonProcessingException {
-        final Instant startingTime = Instant.now();
+        final Date startingTime = new Date();
         final Duration duration = Duration.ofMinutes(45);
 
         final String teamInfoId = UUID.randomUUID().toString();
         final TeamInfo teamInfo = RegisteredTeamInfo.builder().id(teamInfoId).teamId("teamId").build();
-        final GoalEvent goalEvent = GoalEvent.builder().when(Instant.now()).teamWhoScored(teamInfo.getId()).build();
+        final GoalEvent goalEvent = GoalEvent.builder().when(new Date()).teamWhoScored(teamInfo.getId()).build();
         final List<MatchEvent> matchEvents = Arrays.asList(goalEvent);
 
         final MatchPart matchPart = MatchPartImpl.builder().startingTime(startingTime).duration(duration).events(matchEvents).build();
@@ -73,16 +72,16 @@ public class MatchPartImplTest {
 
     @Test
     public void testConvertToJsonOneGoalAndOneSubstitutionEvent() throws JsonProcessingException {
-        final Instant startingTime = Instant.now();
+        final Date startingTime = new Date();
         final Duration duration = Duration.ofMinutes(45);
 
         final String teamInfoId = UUID.randomUUID().toString();
         final TeamInfo teamInfo = RegisteredTeamInfo.builder().teamId("teamId").build();
-        final MatchEvent goalEvent = GoalEvent.builder().when(Instant.now()).teamWhoScored(teamInfo.getId()).build();
+        final MatchEvent goalEvent = GoalEvent.builder().when(new Date()).teamWhoScored(teamInfo.getId()).build();
 
         final String playerInfoId = UUID.randomUUID().toString();
         final PlayerInfo playerInfo = RegisteredPlayerInfo.builder().playerId(BigInteger.ONE).build();
-        final MatchEvent substitutionEvent = SubstitutionEvent.builder().when(Instant.now()).in(playerInfo.getId()).build();
+        final MatchEvent substitutionEvent = SubstitutionEvent.builder().when(new Date()).in(playerInfo.getId()).build();
         final List<MatchEvent> matchEvents = Arrays.asList(goalEvent, substitutionEvent);
 
         final MatchPart matchPart = MatchPartImpl.builder().startingTime(startingTime).duration(duration).events(matchEvents).build();
@@ -97,13 +96,13 @@ public class MatchPartImplTest {
 
     @Test
     public void testConvertToJsonTwoGoalEvents() throws JsonProcessingException {
-        final Instant startingTime = Instant.now();
+        final Date startingTime = new Date();
         final Duration duration = Duration.ofMinutes(45);
 
         final String teamInfoId = UUID.randomUUID().toString();
         final TeamInfo teamInfo = RegisteredTeamInfo.builder().id(teamInfoId).teamId("teamId").build();
-        final MatchEvent goalEvent = GoalEvent.builder().when(Instant.now()).teamWhoScored(teamInfo.getId()).build();
-        final MatchEvent secondGoalEvent = GoalEvent.builder().when(Instant.now()).teamWhoScored(teamInfo.getId()).build();
+        final MatchEvent goalEvent = GoalEvent.builder().when(new Date()).teamWhoScored(teamInfo.getId()).build();
+        final MatchEvent secondGoalEvent = GoalEvent.builder().when(new Date()).teamWhoScored(teamInfo.getId()).build();
         final List<MatchEvent> matchEvents = Arrays.asList(goalEvent, secondGoalEvent);
 
         final MatchPart matchPart = MatchPartImpl.builder().startingTime(startingTime).duration(duration).events(matchEvents).build();

@@ -9,7 +9,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.hibernate.validator.constraints.NotEmpty;
 
-import java.time.Instant;
+import java.util.Date;
 
 @JsonIgnoreProperties
 @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -24,7 +24,7 @@ import java.time.Instant;
  */
 public class GoalEvent implements MatchEvent{
 
-    private final Instant when;
+    private final Date when;
 
     /**
      * Id of the PlayerInfo who scored the goal

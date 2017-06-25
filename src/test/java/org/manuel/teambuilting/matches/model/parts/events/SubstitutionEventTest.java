@@ -1,13 +1,10 @@
 package org.manuel.teambuilting.matches.model.parts.events;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.json.JSONObject;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
-import java.time.Instant;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.Date;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -22,21 +19,15 @@ public class SubstitutionEventTest {
 
     @Test
     public void testDeserializeSubstitutionEvent() throws IOException {
-        final Instant when = Instant.now();
+        final Date when = new Date();
 
         final String in = UUID.randomUUID().toString();
         final String out = UUID.randomUUID().toString();
         final SubstitutionEvent substitutionEvent = SubstitutionEvent.builder().when(when).in(in).out(out).build();
-        final JSONObject json = createJsonObjectFrom(substitutionEvent);
-        final MatchEvent actual = mapper.readValue(json.toString(), SubstitutionEvent.class);
+        final String json = mapper.writeValueAsString(substitutionEvent);
+        final MatchEvent actual = mapper.readValue(json, SubstitutionEvent.class);
         assertEquals(substitutionEvent, actual);
 
-    }
-
-    private JSONObject createJsonObjectFrom(final SubstitutionEvent substitutionEvent) {
-        final Map<String, Object> map = new HashMap<>();
-        map.put(MatchEventType.SUBSTITUTION.value(), substitutionEvent);
-        return new JSONObject(map);
     }
 
 }

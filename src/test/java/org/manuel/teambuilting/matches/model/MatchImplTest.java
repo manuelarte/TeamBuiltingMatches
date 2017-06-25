@@ -14,8 +14,8 @@ import org.manuel.teambuilting.matches.model.team.UnRegisteredTeamInfo;
 
 import java.math.BigInteger;
 import java.time.Duration;
-import java.time.Instant;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -39,7 +39,7 @@ public class MatchImplTest {
         final PlayerInfo awayPlayerOne = UnRegisteredPlayerInfo.builder().name("UnRegistered Player").build();
         final TeamInMatch awayTeam = TeamInMatch.builder().teamInfo(awayTeamInfo).selectedPlayer(awayPlayerOne).build();
 
-        final Instant startingTime = Instant.now();
+        final Date startingTime = new Date();
         final Duration duration = Duration.ofMinutes(45);
         final List<MatchEvent> matchEvents = new ArrayList<>();
         final MatchPart part = MatchPartImpl.builder().startingTime(startingTime).events(matchEvents).duration(duration).build();
@@ -50,18 +50,22 @@ public class MatchImplTest {
 
     @Test
     public void testMatchDurationTwoParts() {
-        final TeamInfo homeTeamInfo = RegisteredTeamInfo.builder().teamId("teamId").build();
-        final PlayerInfo homePlayerOne = RegisteredPlayerInfo.builder().playerId(BigInteger.ONE).build();
+        final String homeTeamInfoId = UUID.randomUUID().toString();
+        final TeamInfo homeTeamInfo = RegisteredTeamInfo.builder().id(homeTeamInfoId).teamId("teamId").build();
+        final String homePlayerInfoId = UUID.randomUUID().toString();
+        final PlayerInfo homePlayerOne = RegisteredPlayerInfo.builder().id(homePlayerInfoId).playerId(BigInteger.ONE).build();
         final TeamInMatch homeTeam = TeamInMatch.builder().teamInfo(homeTeamInfo).selectedPlayer(homePlayerOne).build();
 
-        final TeamInfo awayTeamInfo = UnRegisteredTeamInfo.builder().name("UnRegistered Team").build();
-        final PlayerInfo awayPlayerOne = UnRegisteredPlayerInfo.builder().name("UnRegistered Player").build();
+        final String awayTeamInfoId = UUID.randomUUID().toString();
+        final TeamInfo awayTeamInfo = UnRegisteredTeamInfo.builder().id(awayTeamInfoId).name("UnRegistered Team").build();
+        final String awayPlayerInfoId = UUID.randomUUID().toString();
+        final PlayerInfo awayPlayerOne = UnRegisteredPlayerInfo.builder().id(awayPlayerInfoId).name("UnRegistered Player").build();
         final TeamInMatch awayTeam = TeamInMatch.builder().teamInfo(awayTeamInfo).selectedPlayer(awayPlayerOne).build();
 
-        final Instant startingTimePart = Instant.now();
+        final Date startingTimePart = new Date();
         final Duration durationPart = Duration.ofMinutes(45);
 
-        final Instant startingTimePart2 = startingTimePart.plus(durationPart.plus(Duration.ofMinutes(15)));
+        final Date startingTimePart2 = new Date(startingTimePart.getTime() + (durationPart.plus(Duration.ofMinutes(15))).toMillis());
         final Duration durationPart2 = Duration.ofMinutes(45);
 
         final List<MatchEvent> matchEvents = new ArrayList<>();

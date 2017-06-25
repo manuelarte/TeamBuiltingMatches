@@ -2,7 +2,6 @@ package org.manuel.teambuilting.matches.model.parts.events;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.json.JSONObject;
 import org.junit.jupiter.api.Test;
 import org.manuel.teambuilting.matches.model.player.PlayerInfo;
 import org.manuel.teambuilting.matches.model.player.RegisteredPlayerInfo;
@@ -11,9 +10,7 @@ import org.manuel.teambuilting.matches.model.team.TeamInfo;
 
 import java.io.IOException;
 import java.math.BigInteger;
-import java.time.Instant;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.Date;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -28,7 +25,7 @@ public class MatchEventTest {
 
     @Test
     public void testSeserializeGoalEvent() throws JsonProcessingException {
-        final Instant when = Instant.now();
+        final Date when = new Date();
 
         final String playerInfoId = UUID.randomUUID().toString();
         final PlayerInfo who = RegisteredPlayerInfo.builder().id(playerInfoId).playerId(BigInteger.ONE).build();
@@ -47,7 +44,7 @@ public class MatchEventTest {
 
     @Test
     public void testDeserializeGoalEvent() throws IOException {
-        final Instant when = Instant.now();
+        final Date when = new Date();
         final String playerInfoId = UUID.randomUUID().toString();
         final PlayerInfo who = RegisteredPlayerInfo.builder().id(playerInfoId).playerId(BigInteger.ONE).build();
 
@@ -55,15 +52,9 @@ public class MatchEventTest {
         final TeamInfo teamWhoScored = RegisteredTeamInfo.builder().id(teamInfoId).teamId("teamId").build();
         final GoalEvent goalEventExpected = GoalEvent.builder().when(when).teamWhoScored(teamWhoScored.getId()).who(who.getId()).build();
 
-        final JSONObject json = createJsonObjectFrom(goalEventExpected);
-        final MatchEvent actual = mapper.readValue(json.toString(), MatchEvent.class);
+        final String json = mapper.writeValueAsString(goalEventExpected);
+        final MatchEvent actual = mapper.readValue(json, MatchEvent.class);
         assertEquals(goalEventExpected, actual);
-    }
-
-    private JSONObject createJsonObjectFrom(final GoalEvent goalEvent) {
-        final Map<String, Object> map = new HashMap<>();
-        map.put(MatchEventType.GOAL.value(), goalEvent);
-        return new JSONObject(map);
     }
 
 }

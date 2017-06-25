@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import org.manuel.teambuilting.matches.model.parts.MatchPart;
 
 import java.time.Duration;
-import java.time.Instant;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -18,9 +18,9 @@ public interface Match {
 	
 	String getId();
 
-	Instant getStartingTime();
+	Date getStartingTime();
 
-    Instant getEndingTime();
+    Date getEndingTime();
 
 	String getLocation();
 	

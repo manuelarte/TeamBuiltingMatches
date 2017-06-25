@@ -18,8 +18,8 @@ import javax.validation.Valid;
 import javax.validation.constraints.AssertTrue;
 import javax.validation.constraints.NotNull;
 import java.time.Duration;
-import java.time.Instant;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
 
 import static org.manuel.teambuilting.matches.util.Util.MAX_DURATION_OF_MATCH;
@@ -74,13 +74,13 @@ public class MatchImpl implements Match {
 	}
 
 	@Override
-    public Instant getStartingTime() {
+    public Date getStartingTime() {
 	    return getMatchParts().get(0).getStartingTime();
     }
 
     @Override
-    public Instant getEndingTime() {
-        return getStartingTime().plus(getDuration());
+    public Date getEndingTime() {
+        return new Date(getStartingTime().getTime() + getDuration().toMillis());
     }
 
     @Override
@@ -97,8 +97,8 @@ public class MatchImpl implements Match {
 	    for (int i = 1; i < getMatchParts().size(); i++) {
 	        final MatchPart currentPart = getMatchParts().get(i);
 	        final MatchPart previousPart = getMatchParts().get(i-1);
-	        final Instant startingOfPreviousPart = previousPart.getStartingTime();
-            if (startingOfPreviousPart.isAfter(currentPart.getEndingTime()) ) {
+	        final Date startingOfPreviousPart = previousPart.getStartingTime();
+            if (startingOfPreviousPart.after(currentPart.getEndingTime()) ) {
                 return false;
             }
         }

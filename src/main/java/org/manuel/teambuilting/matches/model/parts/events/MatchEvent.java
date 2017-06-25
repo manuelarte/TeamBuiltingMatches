@@ -3,7 +3,7 @@ package org.manuel.teambuilting.matches.model.parts.events;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.databind.annotation.JsonTypeIdResolver;
 
-import java.time.Instant;
+import java.util.Date;
 
 /**
  * @author Manuel Doncel Martos
@@ -19,6 +19,6 @@ public interface MatchEvent {
 	 * When the event happened
 	 * @return
 	 */
-	Instant getWhen();
+	Date getWhen();
 
 }

@@ -4,7 +4,7 @@ import org.manuel.teambuilting.matches.model.Match;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 
-import java.time.Instant;
+import java.util.Date;
 import java.util.Set;
 
 /**
@@ -20,6 +20,6 @@ public interface MatchRepository extends MongoRepository<Match, String> {
      * @param to
      * @return
      */
-    Set<Match> findByEndingTimeIsBetween(Instant from, Instant to);
+    Set<Match> findByEndingTimeIsBetween(Date from, Date to);
 
 }

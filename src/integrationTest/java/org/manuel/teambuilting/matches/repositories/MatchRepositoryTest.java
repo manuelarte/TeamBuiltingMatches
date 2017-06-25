@@ -22,11 +22,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import javax.inject.Inject;
 import java.math.BigInteger;
 import java.time.Duration;
-import java.time.Instant;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 
 import static org.junit.Assert.assertTrue;
 
@@ -48,23 +44,24 @@ public class MatchRepositoryTest {
 
     @Test
     public void testRetrieveMatchesBetweenTwoSameInstantsNoPreviousRecords() {
-        final Set<Match> matchesBetweenTwoInstants = matchRepository.findByEndingTimeIsBetween(Instant.now(), Instant.now());
+        final Date date = new Date();
+        final Set<Match> matchesBetweenTwoInstants = matchRepository.findByEndingTimeIsBetween(date, date);
         assertTrue(matchesBetweenTwoInstants.isEmpty());
     }
 
     @Test
     public void testRetrieveMatchesBetweenTwoInstantsOneMatchInBetween() {
-        final Instant startingTime = Instant.now();
+        final Date startingTime = new Date();
         final Duration duration = Duration.ofMinutes(45);
         createAndSaveMatch(startingTime, duration);
 
-        final Instant startingLookingDate = startingTime;
-        final Instant endingLookingDate = startingLookingDate.plus(Duration.ofMinutes(90));
+        final Date startingLookingDate = startingTime;
+        final Date endingLookingDate = new Date(startingLookingDate.getTime() + Duration.ofMinutes(90).toMillis());
         final Set<Match> matchesBetweenTwoInstants = matchRepository.findByEndingTimeIsBetween(startingLookingDate, endingLookingDate);
         assertTrue(matchesBetweenTwoInstants.size() == 1);
     }
 
-    private Match createAndSaveMatch(final Instant startingTime, Duration duration) {
+    private Match createAndSaveMatch(final Date startingTime, Duration duration) {
         final String homeTeamInfoId = UUID.randomUUID().toString();
         final TeamInfo homeTeamInfo = RegisteredTeamInfo.builder().id(homeTeamInfoId).teamId("teamId").build();
 
@@ -78,7 +75,8 @@ public class MatchRepositoryTest {
         final PlayerInfo awayPlayerOne = UnRegisteredPlayerInfo.builder().id(awayPlayerInfoId).name("UnRegistered Player").build();
         final TeamInMatch awayTeam = TeamInMatch.builder().teamInfo(awayTeamInfo).selectedPlayer(awayPlayerOne).build();
 
-        final MatchEvent firstGoalEvent = GoalEvent.builder().when(startingTime.plus(Duration.ofMinutes(5)))
+        final Date firstGoalEventWhen = new Date(startingTime.getTime() + Duration.ofMinutes(5).toMillis());
+        final MatchEvent firstGoalEvent = GoalEvent.builder().when(firstGoalEventWhen)
                 .teamWhoScored(homeTeam.getTeamInfo().getId()).build();
         final List<MatchEvent> matchEvents = Arrays.asList(firstGoalEvent);
 

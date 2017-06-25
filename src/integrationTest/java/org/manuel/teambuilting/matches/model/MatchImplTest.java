@@ -20,8 +20,8 @@ import org.springframework.test.context.junit4.SpringRunner;
 import javax.inject.Inject;
 import java.math.BigInteger;
 import java.time.Duration;
-import java.time.Instant;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -56,9 +56,9 @@ public class MatchImplTest {
         final PlayerInfo awayPlayerOne = UnRegisteredPlayerInfo.builder().name("UnRegistered Player").build();
         final TeamInMatch awayTeam = TeamInMatch.builder().teamInfo(awayTeamInfo).selectedPlayer(awayPlayerOne).build();
 
-        final Instant startingTime = Instant.now();
+        final Date startingTime = new Date();
 
-        final MatchEvent firstGoalEvent = GoalEvent.builder().when(startingTime.plus(Duration.ofMinutes(5)))
+        final MatchEvent firstGoalEvent = GoalEvent.builder().when(new Date(startingTime.getTime() + Duration.ofMinutes(5).toMillis()))
                 .teamWhoScored(homeTeam.getTeamInfo().getId()).build();
         final List<MatchEvent> matchEvents = Arrays.asList(firstGoalEvent);
 

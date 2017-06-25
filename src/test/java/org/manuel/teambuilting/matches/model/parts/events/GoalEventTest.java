@@ -6,9 +6,7 @@ import org.json.JSONObject;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
-import java.time.Instant;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.Date;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -25,7 +23,7 @@ public class GoalEventTest {
     @Test
     public void testSerializeGoalEvent() throws JsonProcessingException {
         final String teamWhoScored = UUID.randomUUID().toString();
-        final GoalEvent goalEvent = GoalEvent.builder().when(Instant.now()).teamWhoScored(teamWhoScored).build();
+        final GoalEvent goalEvent = GoalEvent.builder().when(new Date()).teamWhoScored(teamWhoScored).build();
         final JSONObject json = new JSONObject(mapper.writeValueAsString(goalEvent));
         final String goalFieldName = MatchEventType.GOAL.value();
         assertTrue(json.has(goalFieldName));
@@ -33,24 +31,18 @@ public class GoalEventTest {
 
     @Test
     public void testDeserializeGoalEvent() throws IOException {
-        final Instant when = Instant.now();
+        final Date when = new Date();
         final String who = UUID.randomUUID().toString();
         final String teamWhoScored = UUID.randomUUID().toString();
         final GoalEvent goalEventExpected = GoalEvent.builder().when(when).teamWhoScored(teamWhoScored).who(who).build();
 
-        final JSONObject json = createJsonObjectFrom(goalEventExpected);
+        final String json = mapper.writeValueAsString(goalEventExpected);
         final MatchEvent matchEventActual = mapper.readValue(json.toString(), GoalEvent.class);
         assertTrue(matchEventActual instanceof GoalEvent);
         final GoalEvent actual = (GoalEvent) matchEventActual;
         assertEquals(who, actual.getWho());
         assertEquals(when, actual.getWhen());
         assertEquals(teamWhoScored, actual.getTeamWhoScored());
-    }
-
-    private JSONObject createJsonObjectFrom(final GoalEvent goalEvent) {
-        final Map<String, Object> map = new HashMap<>();
-        map.put(MatchEventType.GOAL.value(), goalEvent);
-        return new JSONObject(map);
     }
 
 }
