@@ -23,7 +23,7 @@ public class GoalEventTest {
     @Test
     public void testSerializeGoalEvent() throws JsonProcessingException {
         final String teamWhoScored = UUID.randomUUID().toString();
-        final GoalEvent goalEvent = GoalEvent.builder().when(new Date()).teamWhoScored(teamWhoScored).build();
+        final GoalEvent goalEvent = GoalEvent.builder().when(new Date()).teamThatScored(teamWhoScored).build();
         final JSONObject json = new JSONObject(mapper.writeValueAsString(goalEvent));
         final String goalFieldName = MatchEventType.GOAL.value();
         assertTrue(json.has(goalFieldName));
@@ -34,7 +34,7 @@ public class GoalEventTest {
         final Date when = new Date();
         final String who = UUID.randomUUID().toString();
         final String teamWhoScored = UUID.randomUUID().toString();
-        final GoalEvent goalEventExpected = GoalEvent.builder().when(when).teamWhoScored(teamWhoScored).who(who).build();
+        final GoalEvent goalEventExpected = GoalEvent.builder().when(when).teamThatScored(teamWhoScored).who(who).build();
 
         final String json = mapper.writeValueAsString(goalEventExpected);
         final MatchEvent matchEventActual = mapper.readValue(json.toString(), GoalEvent.class);
@@ -42,7 +42,7 @@ public class GoalEventTest {
         final GoalEvent actual = (GoalEvent) matchEventActual;
         assertEquals(who, actual.getWho());
         assertEquals(when, actual.getWhen());
-        assertEquals(teamWhoScored, actual.getTeamWhoScored());
+        assertEquals(teamWhoScored, actual.getTeamThatScored());
     }
 
 }

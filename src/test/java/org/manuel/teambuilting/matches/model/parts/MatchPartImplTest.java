@@ -57,7 +57,7 @@ public class MatchPartImplTest {
 
         final String teamInfoId = UUID.randomUUID().toString();
         final TeamInfo teamInfo = RegisteredTeamInfo.builder().id(teamInfoId).teamId("teamId").build();
-        final GoalEvent goalEvent = GoalEvent.builder().when(new Date()).teamWhoScored(teamInfo.getId()).build();
+        final GoalEvent goalEvent = GoalEvent.builder().when(new Date()).teamThatScored(teamInfo.getId()).build();
         final List<MatchEvent> matchEvents = Arrays.asList(goalEvent);
 
         final MatchPart matchPart = MatchPartImpl.builder().startingTime(startingTime).duration(duration).events(matchEvents).build();
@@ -77,7 +77,7 @@ public class MatchPartImplTest {
 
         final String teamInfoId = UUID.randomUUID().toString();
         final TeamInfo teamInfo = RegisteredTeamInfo.builder().teamId("teamId").build();
-        final MatchEvent goalEvent = GoalEvent.builder().when(new Date()).teamWhoScored(teamInfo.getId()).build();
+        final MatchEvent goalEvent = GoalEvent.builder().when(new Date()).teamThatScored(teamInfo.getId()).build();
 
         final String playerInfoId = UUID.randomUUID().toString();
         final PlayerInfo playerInfo = RegisteredPlayerInfo.builder().playerId(BigInteger.ONE).build();
@@ -101,8 +101,8 @@ public class MatchPartImplTest {
 
         final String teamInfoId = UUID.randomUUID().toString();
         final TeamInfo teamInfo = RegisteredTeamInfo.builder().id(teamInfoId).teamId("teamId").build();
-        final MatchEvent goalEvent = GoalEvent.builder().when(new Date()).teamWhoScored(teamInfo.getId()).build();
-        final MatchEvent secondGoalEvent = GoalEvent.builder().when(new Date()).teamWhoScored(teamInfo.getId()).build();
+        final MatchEvent goalEvent = GoalEvent.builder().when(new Date()).teamThatScored(teamInfo.getId()).build();
+        final MatchEvent secondGoalEvent = GoalEvent.builder().when(new Date()).teamThatScored(teamInfo.getId()).build();
         final List<MatchEvent> matchEvents = Arrays.asList(goalEvent, secondGoalEvent);
 
         final MatchPart matchPart = MatchPartImpl.builder().startingTime(startingTime).duration(duration).events(matchEvents).build();

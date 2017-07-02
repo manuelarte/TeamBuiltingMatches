@@ -8,6 +8,7 @@ import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 import com.mongodb.annotations.Immutable;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import org.manuel.teambuilting.matches.model.Match;
 import org.manuel.teambuilting.matches.model.parts.events.MatchEvent;
 
 import javax.validation.Valid;
@@ -69,7 +70,14 @@ public class MatchPartImpl implements MatchPart {
         return new Date(startingTime.getTime() + duration.toMillis());
     }
 
-	@JsonPOJOBuilder(withPrefix = "")
+    @Override
+    @AssertTrue
+    public boolean validInContext(Match match) {
+	    // validate events that the players exist
+        return true;
+    }
+
+    @JsonPOJOBuilder(withPrefix = "")
 	public static class MatchPartImplBuilder {
 
 	}

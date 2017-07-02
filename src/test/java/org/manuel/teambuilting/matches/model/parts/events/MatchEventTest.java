@@ -32,14 +32,14 @@ public class MatchEventTest {
 
         final String teamInfoId = UUID.randomUUID().toString();
         final TeamInfo teamWhoScored = RegisteredTeamInfo.builder().id(teamInfoId).teamId("teamId").build();
-        final MatchEvent matchEvent = GoalEvent.builder().when(when).who(who.getId()).teamWhoScored(teamWhoScored.getId()).build();
+        final MatchEvent matchEvent = GoalEvent.builder().when(when).who(who.getId()).teamThatScored(teamWhoScored.getId()).build();
 
         final String matchEventJson = mapper.writeValueAsString(matchEvent);
         //assertTrue(goalEvent instanceof GoalEvent);
         //final GoalEvent actual = (GoalEvent) goalEvent;
         //assertEquals(who, actual.getWho());
         //assertEquals(when, actual.getWhen());
-        //assertEquals(teamWhoScored, actual.getTeamWhoScored());
+        //assertEquals(teamWhoScored, actual.getTeamThatScored());
     }
 
     @Test
@@ -50,7 +50,7 @@ public class MatchEventTest {
 
         final String teamInfoId = UUID.randomUUID().toString();
         final TeamInfo teamWhoScored = RegisteredTeamInfo.builder().id(teamInfoId).teamId("teamId").build();
-        final GoalEvent goalEventExpected = GoalEvent.builder().when(when).teamWhoScored(teamWhoScored.getId()).who(who.getId()).build();
+        final GoalEvent goalEventExpected = GoalEvent.builder().when(when).teamThatScored(teamWhoScored.getId()).who(who.getId()).build();
 
         final String json = mapper.writeValueAsString(goalEventExpected);
         final MatchEvent actual = mapper.readValue(json, MatchEvent.class);

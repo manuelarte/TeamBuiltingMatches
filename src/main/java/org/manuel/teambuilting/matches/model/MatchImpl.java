@@ -59,7 +59,8 @@ public class MatchImpl implements Match {
 	
 	private final String description;
 
-    public MatchImpl(String id, TeamInMatch homeTeam, TeamInMatch awayTeam, String location, List<MatchPart> matchParts, String description) {
+    public MatchImpl(final String id, final TeamInMatch homeTeam, final TeamInMatch awayTeam,
+                     final String location, final List<MatchPart> matchParts, final String description) {
         this.id = id;
         this.homeTeam = homeTeam;
         this.awayTeam = awayTeam;
