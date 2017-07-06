@@ -1,4 +1,4 @@
-package org.manuel.teambuilting.matches.model.parts.events;
+package org.manuel.teambuilting.matches.model.events;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;

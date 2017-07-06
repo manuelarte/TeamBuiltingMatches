@@ -1,4 +1,4 @@
-package org.manuel.teambuilting.matches.model.parts.events;
+package org.manuel.teambuilting.matches.model.events;
 
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.databind.annotation.JsonTypeIdResolver;

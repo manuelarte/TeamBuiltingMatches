@@ -1,19 +1,20 @@
-package org.manuel.teambuilting.matches.model.parts.events;
+package org.manuel.teambuilting.matches.model.events;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonPropertyDescription;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 import com.mongodb.annotations.Immutable;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import org.hibernate.validator.constraints.NotEmpty;
 
-import javax.validation.constraints.AssertTrue;
 import java.util.Date;
 
 @JsonIgnoreProperties
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@JsonDeserialize(builder = SubstitutionEvent.SubstitutionEventBuilder.class)
+@JsonDeserialize(builder = GoalEvent.GoalEventBuilder.class)
 @Immutable
 @Data
 @lombok.Builder
@@ -22,29 +23,28 @@ import java.util.Date;
  * @author Manuel Doncel Martos
  * @since 21/06/2017.
  */
-public class SubstitutionEvent implements MatchEvent {
+public class GoalEvent implements MatchEvent{
 
     private final Date when;
 
     /**
-     * Id of the playerInfo who comes in
+     * Id of the PlayerInfo who scored the goal
      */
-    private final String in;
+    @JsonPropertyDescription("Id of the PlayerInfo that scored the goal")
+    private final String who;
 
     /**
-     * Id of the PlayerInfo who comes out
+     * The team that scored the goal
      */
-    private final String out;
+    @JsonPropertyDescription("Id of the TeamInfo that scored the goal")
+    @NotEmpty
+    private final String teamThatScored;
 
+    @JsonPropertyDescription("Description of the goal")
     private final String description;
 
-    @AssertTrue
-    public boolean inOrOutDeclared() {
-        return in != null || out != null;
-    }
-
     @JsonPOJOBuilder(withPrefix = "")
-    public static class SubstitutionEventBuilder {
+    public static class GoalEventBuilder {
 
     }
 

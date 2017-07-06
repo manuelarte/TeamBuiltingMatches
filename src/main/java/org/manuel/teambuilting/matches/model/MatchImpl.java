@@ -10,6 +10,7 @@ import lombok.Data;
 import lombok.Singular;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.manuel.teambuilting.matches.model.parts.MatchPart;
+import org.manuel.teambuilting.matches.model.events.MatchEvent;
 import org.manuel.teambuilting.matches.model.team.RegisteredTeamInfo;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -21,6 +22,8 @@ import java.time.Duration;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 import static org.manuel.teambuilting.matches.util.Util.MAX_DURATION_OF_MATCH;
 
@@ -59,14 +62,20 @@ public class MatchImpl implements Match {
 	
 	private final String description;
 
+    @NotNull
+    @Valid
+    private final List<MatchEvent> events;
+
     public MatchImpl(final String id, final TeamInMatch homeTeam, final TeamInMatch awayTeam,
-                     final String location, final List<MatchPart> matchParts, final String description) {
+                     final String location, final List<MatchPart> matchParts, final String description,
+                     final List<MatchEvent> events) {
         this.id = id;
         this.homeTeam = homeTeam;
         this.awayTeam = awayTeam;
         this.location = location;
         this.matchParts = Ordering.from(sortByStartingTime()).sortedCopy(matchParts);
         this.description = description;
+        this.events = events;
     }
 
     @Override
@@ -116,13 +125,21 @@ public class MatchImpl implements Match {
         return homeTeam.getTeamInfo() instanceof RegisteredTeamInfo || awayTeam.getTeamInfo() instanceof RegisteredTeamInfo;
     }
 
+    @AssertTrue
+    @SuppressWarnings("unused")
+    public boolean eventsAndDurationMatch() {
+        final List<MatchEvent> eventNotInMatchTime = events.stream().filter(event -> Optional.ofNullable(event.getWhen()).isPresent()
+                && eventIsNotBetweenMatchTime(event)).collect(Collectors.toList());
+        return eventNotInMatchTime.isEmpty();
+    }
+
+    private boolean eventIsNotBetweenMatchTime(final MatchEvent event) {
+        final Date when = event.getWhen();
+        return when.before(getStartingTime()) || when.after(getEndingTime());
+    }
+
     private Comparator<? super MatchPart> sortByStartingTime() {
-	    return new Comparator<MatchPart>() {
-            @Override
-            public int compare(MatchPart o1, MatchPart o2) {
-                return o1.getStartingTime().compareTo(o2.getStartingTime());
-            }
-        };
+	    return Comparator.comparing(MatchPart::getStartingTime);
     }
 
     @JsonPOJOBuilder(withPrefix = "")

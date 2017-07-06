@@ -8,8 +8,8 @@ import org.manuel.teambuilting.matches.model.MatchImpl;
 import org.manuel.teambuilting.matches.model.TeamInMatch;
 import org.manuel.teambuilting.matches.model.parts.MatchPart;
 import org.manuel.teambuilting.matches.model.parts.MatchPartImpl;
-import org.manuel.teambuilting.matches.model.parts.events.GoalEvent;
-import org.manuel.teambuilting.matches.model.parts.events.MatchEvent;
+import org.manuel.teambuilting.matches.model.events.GoalEvent;
+import org.manuel.teambuilting.matches.model.events.MatchEvent;
 import org.manuel.teambuilting.matches.model.player.PlayerInfo;
 import org.manuel.teambuilting.matches.model.player.RegisteredPlayerInfo;
 import org.manuel.teambuilting.matches.model.player.UnRegisteredPlayerInfo;
@@ -77,12 +77,12 @@ public class MatchRepositoryTest {
 
         final Date firstGoalEventWhen = new Date(startingTime.getTime() + Duration.ofMinutes(5).toMillis());
         final MatchEvent firstGoalEvent = GoalEvent.builder().when(firstGoalEventWhen)
-                .teamWhoScored(homeTeam.getTeamInfo().getId()).build();
+                .teamThatScored(homeTeam.getTeamInfo().getId()).build();
         final List<MatchEvent> matchEvents = Arrays.asList(firstGoalEvent);
 
-        final MatchPart part = MatchPartImpl.builder().startingTime(startingTime).duration(duration).events(matchEvents).build();
+        final MatchPart part = MatchPartImpl.builder().startingTime(startingTime).duration(duration).build();
 
-        final Match match = MatchImpl.builder().homeTeam(homeTeam).awayTeam(awayTeam).matchPart(part).build();
+        final Match match = MatchImpl.builder().homeTeam(homeTeam).awayTeam(awayTeam).matchPart(part).events(matchEvents).build();
         matchRepository.save(match);
         return match;
     }

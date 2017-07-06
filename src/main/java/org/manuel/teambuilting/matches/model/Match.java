@@ -2,6 +2,7 @@ package org.manuel.teambuilting.matches.model;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import org.manuel.teambuilting.matches.model.parts.MatchPart;
+import org.manuel.teambuilting.matches.model.events.MatchEvent;
 
 import java.time.Duration;
 import java.util.Date;
@@ -45,6 +46,7 @@ public interface Match {
 	 * @return The duration of the game
 	 */
 	Duration getDuration();
-	
+
+	List<MatchEvent> getEvents();
 
 }

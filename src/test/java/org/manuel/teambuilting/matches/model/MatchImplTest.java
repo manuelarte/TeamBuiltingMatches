@@ -2,9 +2,11 @@ package org.manuel.teambuilting.matches.model;
 
 import com.google.common.collect.Lists;
 import org.junit.jupiter.api.Test;
+import org.manuel.teambuilting.matches.model.events.GoalEvent;
+import org.manuel.teambuilting.matches.model.events.MatchEvent;
+import org.manuel.teambuilting.matches.model.events.SubstitutionEvent;
 import org.manuel.teambuilting.matches.model.parts.MatchPart;
 import org.manuel.teambuilting.matches.model.parts.MatchPartImpl;
-import org.manuel.teambuilting.matches.model.parts.events.MatchEvent;
 import org.manuel.teambuilting.matches.model.player.PlayerInfo;
 import org.manuel.teambuilting.matches.model.player.RegisteredPlayerInfo;
 import org.manuel.teambuilting.matches.model.player.UnRegisteredPlayerInfo;
@@ -14,10 +16,7 @@ import org.manuel.teambuilting.matches.model.team.UnRegisteredTeamInfo;
 
 import java.math.BigInteger;
 import java.time.Duration;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -42,9 +41,9 @@ public class MatchImplTest {
         final Date startingTime = new Date();
         final Duration duration = Duration.ofMinutes(45);
         final List<MatchEvent> matchEvents = new ArrayList<>();
-        final MatchPart part = MatchPartImpl.builder().startingTime(startingTime).events(matchEvents).duration(duration).build();
+        final MatchPart part = MatchPartImpl.builder().startingTime(startingTime).duration(duration).build();
 
-        final Match match = MatchImpl.builder().homeTeam(homeTeam).awayTeam(awayTeam).matchPart(part).build();
+        final Match match = MatchImpl.builder().homeTeam(homeTeam).awayTeam(awayTeam).matchPart(part).events(matchEvents).build();
         assertTrue(part.getDuration().compareTo(match.getDuration()) == 0);
     }
 
@@ -69,16 +68,52 @@ public class MatchImplTest {
         final Duration durationPart2 = Duration.ofMinutes(45);
 
         final List<MatchEvent> matchEvents = new ArrayList<>();
-        final MatchPart part = MatchPartImpl.builder().startingTime(startingTimePart).duration(durationPart).events(matchEvents).build();
-        final MatchPart part2 = MatchPartImpl.builder().startingTime(startingTimePart2).duration(durationPart2).events(matchEvents).duration(Duration.ofMinutes(45)).build();
+        final MatchPart part = MatchPartImpl.builder().startingTime(startingTimePart).duration(durationPart).build();
+        final MatchPart part2 = MatchPartImpl.builder().startingTime(startingTimePart2).duration(durationPart2).duration(Duration.ofMinutes(45)).build();
         final List<MatchPart> parts = Lists.newArrayList(part, part2);
 
-        final Match match = MatchImpl.builder().homeTeam(homeTeam).awayTeam(awayTeam).matchParts(parts).build();
+        final Match match = MatchImpl.builder().homeTeam(homeTeam).awayTeam(awayTeam).matchParts(parts).events(matchEvents).build();
         assertTrue(Duration.ofMinutes(90).compareTo(match.getDuration()) == 0);
+        assertTrue(match.getEvents().isEmpty());
+    }
+
+    @Test
+    public void testEvents() {
+        final String teamInfoId = UUID.randomUUID().toString();
+        final TeamInfo homeTeamInfo = RegisteredTeamInfo.builder().id(teamInfoId).teamId("teamId").build();
+        final String playerInfoId = UUID.randomUUID().toString();
+        final PlayerInfo homePlayerOne = RegisteredPlayerInfo.builder().id(playerInfoId).playerId(BigInteger.ONE).build();
+        final TeamInMatch homeTeam = TeamInMatch.builder().teamInfo(homeTeamInfo).selectedPlayer(homePlayerOne).build();
+
+        final TeamInfo awayTeamInfo = UnRegisteredTeamInfo.builder().name("UnRegistered Team").build();
+        final PlayerInfo awayPlayerOne = UnRegisteredPlayerInfo.builder().name("UnRegistered Player").build();
+        final TeamInMatch awayTeam = TeamInMatch.builder().teamInfo(awayTeamInfo).selectedPlayer(awayPlayerOne).build();
+
+        final Date startingTime = new Date();
+        final Duration duration = Duration.ofMinutes(45);
+        final MatchPart part = MatchPartImpl.builder().startingTime(startingTime).duration(duration).build();
+
+        final MatchEvent goalEvent = GoalEvent.builder().when(new Date()).teamThatScored(teamInfoId).build();
+
+        final MatchEvent substitutionEvent = SubstitutionEvent.builder().when(new Date()).in(playerInfoId).build();
+        final List<MatchEvent> matchEvents = Arrays.asList(goalEvent, substitutionEvent);
+
+        final Match match = MatchImpl.builder().homeTeam(homeTeam).awayTeam(awayTeam).matchPart(part).events(matchEvents).build();
+        assertTrue(part.getDuration().compareTo(match.getDuration()) == 0);
+        assertTrue(match.getEvents().size() == 2);
+        assertMatchEvents(match.getEvents(), goalEvent, substitutionEvent);
     }
 
     @Test
     public void testConvertFromJson() {
 
     }
+
+    private void assertMatchEvents(final List<MatchEvent> actualEvents, final MatchEvent... expectedEvents) {
+        for (int i = 0; i < expectedEvents.length; i++) {
+            final MatchEvent actualEvent = actualEvents.get(i);
+            assertTrue(actualEvent.equals(expectedEvents[i]));
+        }
+    }
+
 }

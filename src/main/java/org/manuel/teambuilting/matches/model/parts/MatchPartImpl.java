@@ -9,16 +9,11 @@ import com.mongodb.annotations.Immutable;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.manuel.teambuilting.matches.model.Match;
-import org.manuel.teambuilting.matches.model.parts.events.MatchEvent;
 
-import javax.validation.Valid;
 import javax.validation.constraints.AssertTrue;
 import javax.validation.constraints.NotNull;
 import java.time.Duration;
 import java.util.Date;
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 @JsonIgnoreProperties
 @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -40,29 +35,12 @@ public class MatchPartImpl implements MatchPart {
 
 	@NotNull
 	private final Duration duration;
-	
-	@NotNull
-    @Valid
-	private final List<MatchEvent> events;
 
 	@AssertTrue
     @SuppressWarnings("unused")
 	public boolean durationHasLength() {
 		return duration.getSeconds() > 0;
 	}
-
-    @AssertTrue
-    @SuppressWarnings("unused")
-    public boolean eventsAndDurationMatch() {
-        final List<MatchEvent> eventNotInMatchTime = events.stream().filter(event -> Optional.ofNullable(event.getWhen()).isPresent()
-                && eventIsNotBetweenMatchTime(event)).collect(Collectors.toList());
-        return eventNotInMatchTime.isEmpty();
-    }
-
-    private boolean eventIsNotBetweenMatchTime(final MatchEvent event) {
-        final Date when = event.getWhen();
-        return when.before(startingTime) || when.after(getEndingTime());
-    }
 
     @Override
     @JsonIgnore

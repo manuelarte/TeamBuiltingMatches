@@ -1,8 +1,10 @@
-package org.manuel.teambuilting.matches.model.parts.events;
+package org.manuel.teambuilting.matches.model.events;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
+import com.fasterxml.jackson.module.jsonSchema.JsonSchema;
 import lombok.Getter;
+import org.manuel.teambuilting.matches.model.events.schemas.SchemasCreator;
 
 /**
  * @author Manuel Doncel Martos
@@ -11,12 +13,15 @@ import lombok.Getter;
 @Getter
 public enum MatchEventType {
 
-    GOAL(GoalEvent.class), SUBSTITUTION(SubstitutionEvent.class);
+    GOAL(GoalEvent.class, SchemasCreator.createGoalEventSchema()), SUBSTITUTION(SubstitutionEvent.class, null),
+    CUSTOM(CustomEvent.class, null);
 
     private final Class<? extends MatchEvent> eventClass;
+    private final JsonSchema schema;
 
-    MatchEventType(final Class<? extends MatchEvent> clazz) {
+    MatchEventType(final Class<? extends MatchEvent> clazz, final JsonSchema schema) {
         this.eventClass = clazz;
+        this.schema = schema;
     }
 
     @JsonValue

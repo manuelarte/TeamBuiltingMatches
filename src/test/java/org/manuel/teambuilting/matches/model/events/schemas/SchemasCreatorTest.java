@@ -1,4 +1,4 @@
-package org.manuel.teambuilting.matches.model.parts.events.schemas;
+package org.manuel.teambuilting.matches.model.events.schemas;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.junit.jupiter.api.Test;
@@ -30,8 +30,8 @@ public class SchemasCreatorTest {
         final TeamInMatch awayTeam = TeamInMatch.builder().teamInfo(awayTeamInfo).selectedPlayers(new ArrayList<>()).build();
 
         List<MatchPart> parts = new ArrayList<>();
-        final Match match = new MatchImpl(null, homeTeam, awayTeam, null, parts, null);
-        schemasCreator.createGoalEventSchema(match);
+        final Match match = new MatchImpl(null, homeTeam, awayTeam, null, parts, null, new ArrayList<>());
+        schemasCreator.createGoalEventSchema();
     }
 
 }

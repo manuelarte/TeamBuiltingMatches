@@ -5,8 +5,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.manuel.teambuilting.matches.model.parts.MatchPart;
 import org.manuel.teambuilting.matches.model.parts.MatchPartImpl;
-import org.manuel.teambuilting.matches.model.parts.events.GoalEvent;
-import org.manuel.teambuilting.matches.model.parts.events.MatchEvent;
 import org.manuel.teambuilting.matches.model.player.PlayerInfo;
 import org.manuel.teambuilting.matches.model.player.RegisteredPlayerInfo;
 import org.manuel.teambuilting.matches.model.player.UnRegisteredPlayerInfo;
@@ -20,9 +18,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import javax.inject.Inject;
 import java.math.BigInteger;
 import java.time.Duration;
-import java.util.Arrays;
 import java.util.Date;
-import java.util.List;
 import java.util.UUID;
 
 import static org.junit.Assert.assertEquals;
@@ -58,12 +54,7 @@ public class MatchImplTest {
 
         final Date startingTime = new Date();
 
-        final MatchEvent firstGoalEvent = GoalEvent.builder().when(new Date(startingTime.getTime() + Duration.ofMinutes(5).toMillis()))
-                .teamWhoScored(homeTeam.getTeamInfo().getId()).build();
-        final List<MatchEvent> matchEvents = Arrays.asList(firstGoalEvent);
-
-
-        final MatchPart part = MatchPartImpl.builder().startingTime(startingTime).duration(Duration.ofMinutes(45)).events(matchEvents).build();
+        final MatchPart part = MatchPartImpl.builder().startingTime(startingTime).duration(Duration.ofMinutes(45)).build();
 
         final Match match = MatchImpl.builder().homeTeam(homeTeam).awayTeam(awayTeam).matchPart(part).build();
         matchRepository.save(match);
