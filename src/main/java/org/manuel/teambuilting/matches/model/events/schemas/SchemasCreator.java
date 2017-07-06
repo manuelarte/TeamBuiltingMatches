@@ -21,9 +21,11 @@ public class SchemasCreator {
     public static JsonSchema createGoalEventSchema() {
         final JsonSchema goalEventSchema = generator.generateSchema(GoalEvent.class);
 
-        /*final ObjectSchema whoSchema = goalEventSchema.asObjectSchema().getProperties().get("who").asObjectSchema();
+        /*
+        final ObjectSchema whoSchema = goalEventSchema.asObjectSchema().getProperties().get("who").asObjectSchema();
         whoSchema.asObjectSchema().setEnums(players.stream().map(PlayerInfo::getId).collect(Collectors.toSet()))
-
+        */
+        /*
         final ObjectSchema teamThatScoredPropertySchema = goalEventSchema.asObjectSchema().getProperties().get("teamThatScored").asObjectSchema();
         teamThatScoredPropertySchema.asObjectSchema().setEnums(Sets.newHashSet(match.getHomeTeam().getTeamInfo().getId(), match.getAwayTeam().getTeamInfo().getId()))
         */
