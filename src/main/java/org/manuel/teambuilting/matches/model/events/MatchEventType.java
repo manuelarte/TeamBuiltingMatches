@@ -13,8 +13,10 @@ import org.manuel.teambuilting.matches.model.events.schemas.SchemasCreator;
 @Getter
 public enum MatchEventType {
 
-    GOAL(GoalEvent.class, SchemasCreator.createGoalEventSchema()), SUBSTITUTION(SubstitutionEvent.class, null),
-    CUSTOM(CustomEvent.class, null);
+    GOAL(GoalEvent.class, SchemasCreator.createSchemaFor(GoalEvent.class)),
+    SUBSTITUTION(SubstitutionEvent.class, SchemasCreator.createSchemaFor(SubstitutionEvent.class)),
+    INJURY(InjuryEvent.class, SchemasCreator.createSchemaFor(InjuryEvent.class)),
+    CUSTOM(CustomEvent.class, SchemasCreator.createSchemaFor(CustomEvent.class));
 
     private final Class<? extends MatchEvent> eventClass;
     private final JsonSchema schema;

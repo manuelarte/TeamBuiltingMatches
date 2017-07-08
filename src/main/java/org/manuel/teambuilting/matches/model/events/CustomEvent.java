@@ -2,6 +2,7 @@ package org.manuel.teambuilting.matches.model.events;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyDescription;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
@@ -29,10 +30,11 @@ public class CustomEvent implements MatchEvent{
     /**
      * Id of the PlayerInfo who scored the goal
      */
+    @JsonProperty(required = true)
     @JsonPropertyDescription("Title of the event")
     private final String title;
 
-    @JsonPropertyDescription("Description of the goal")
+    @JsonPropertyDescription("Description of the event")
     private final String description;
 
     @JsonPOJOBuilder(withPrefix = "")

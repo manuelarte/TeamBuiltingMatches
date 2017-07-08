@@ -2,6 +2,7 @@ package org.manuel.teambuilting.matches.model.events;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyDescription;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
@@ -25,6 +26,7 @@ import java.util.Date;
  */
 public class GoalEvent implements MatchEvent{
 
+    @JsonProperty(required = true)
     private final Date when;
 
     /**
@@ -36,6 +38,7 @@ public class GoalEvent implements MatchEvent{
     /**
      * The team that scored the goal
      */
+    @JsonProperty(required = true)
     @JsonPropertyDescription("Id of the TeamInfo that scored the goal")
     @NotEmpty
     private final String teamThatScored;

@@ -18,6 +18,11 @@ public class SchemasCreator {
     private static final JsonSchemaGenerator generator = new JsonSchemaGenerator(objectMapper);
 
     @SneakyThrows
+    public static JsonSchema createSchemaFor(final Class<?> clazz) {
+        return generator.generateSchema(clazz);
+    }
+
+    @SneakyThrows
     public static JsonSchema createGoalEventSchema() {
         final JsonSchema goalEventSchema = generator.generateSchema(GoalEvent.class);
 
