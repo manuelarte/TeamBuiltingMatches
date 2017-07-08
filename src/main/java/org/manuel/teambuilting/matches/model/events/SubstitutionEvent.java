@@ -27,6 +27,7 @@ import java.util.Date;
 public class SubstitutionEvent implements MatchEvent {
 
     @JsonProperty(required = true)
+    @JsonPropertyDescription("When did the Substitution happen?")
     private final Date when;
 
     /**

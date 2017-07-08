@@ -25,6 +25,8 @@ import java.util.Date;
  */
 public class CustomEvent implements MatchEvent{
 
+    @JsonProperty(required = true)
+    @JsonPropertyDescription("When did it happen?")
     private final Date when;
 
     /**

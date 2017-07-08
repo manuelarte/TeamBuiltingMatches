@@ -27,6 +27,7 @@ import java.util.Date;
 public class GoalEvent implements MatchEvent{
 
     @JsonProperty(required = true)
+    @JsonPropertyDescription("When did the Goal happen?")
     private final Date when;
 
     /**
