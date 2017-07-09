@@ -21,4 +21,10 @@ public interface MatchEvent {
 	 */
 	Date getWhen();
 
+	/**
+	 * Description with more information about the event
+	 * @return
+	 */
+	String getDescription();
+
 }

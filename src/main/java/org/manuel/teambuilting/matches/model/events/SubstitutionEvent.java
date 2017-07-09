@@ -1,9 +1,6 @@
 package org.manuel.teambuilting.matches.model.events;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonPropertyDescription;
+import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 import com.mongodb.annotations.Immutable;
@@ -45,9 +42,16 @@ public class SubstitutionEvent implements MatchEvent {
     @JsonPropertyDescription("More information to add")
     private final String description;
 
+    @JsonIgnore
     @AssertTrue
     public boolean inOrOutDeclared() {
         return in != null || out != null;
+    }
+
+    @JsonIgnore
+    @AssertTrue
+    public boolean isNotTheSamePlayer() {
+        return in != null? !in.equals(out) : false;
     }
 
     @JsonPOJOBuilder(withPrefix = "")
