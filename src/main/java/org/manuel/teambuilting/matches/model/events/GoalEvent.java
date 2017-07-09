@@ -33,14 +33,14 @@ public class GoalEvent implements MatchEvent{
     /**
      * Id of the PlayerInfo who scored the goal
      */
-    @JsonPropertyDescription("Id of the PlayerInfo that scored the goal")
+    @JsonPropertyDescription("Player that scored the goal")
     private final String who;
 
     /**
      * The team that scored the goal
      */
     @JsonProperty(required = true)
-    @JsonPropertyDescription("Id of the TeamInfo that scored the goal")
+    @JsonPropertyDescription("Team that scored the goal")
     @NotEmpty
     private final String teamThatScored;
 
