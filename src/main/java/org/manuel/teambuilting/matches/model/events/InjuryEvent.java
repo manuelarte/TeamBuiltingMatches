@@ -9,6 +9,7 @@ import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 import com.mongodb.annotations.Immutable;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import org.manuel.teambuilting.matches.config.Widget;
 
 import java.util.Date;
 
@@ -27,6 +28,7 @@ public class InjuryEvent implements MatchEvent{
 
     @JsonProperty(required = true)
     @JsonPropertyDescription("When did it happen?")
+    @Widget(id = "time")
     private final Date when;
 
     /**
@@ -34,6 +36,7 @@ public class InjuryEvent implements MatchEvent{
      */
     @JsonProperty(required = true)
     @JsonPropertyDescription("Id of the PlayerInfo that got injured")
+    @Widget(id = "player")
     private final String who;
 
     @JsonPropertyDescription("Description of the injury")

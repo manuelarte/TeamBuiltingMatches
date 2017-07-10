@@ -1,7 +1,7 @@
 package org.manuel.teambuilting.matches.controllers;
 
-import com.fasterxml.jackson.module.jsonSchema.JsonSchema;
 import lombok.AllArgsConstructor;
+import org.manuel.teambuilting.matches.model.dto.SchemaAndWidgetDto;
 import org.manuel.teambuilting.matches.model.events.MatchEventType;
 import org.manuel.teambuilting.matches.model.events.schemas.SchemasCreator;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,9 +24,12 @@ public class MatchEventsQueryController {
     private final SchemasCreator schemasCreator;
 
     @RequestMapping(method = RequestMethod.GET, produces = "application/json")
-    public Map<String, JsonSchema> getMatchEvents() {
-        final Map<String, JsonSchema> matchEventsType = Stream.of(MatchEventType.values()).collect(Collectors.toMap(MatchEventType::value,
-                MatchEventType::getSchema));
+    public Map<String, SchemaAndWidgetDto> getMatchEvents() {
+        final Map<String, SchemaAndWidgetDto> matchEventsType = Stream.of(MatchEventType.values())
+                .collect(Collectors.toMap(MatchEventType::value,
+                matchEventType -> SchemaAndWidgetDto.builder().schema(matchEventType.getSchema())
+                        .widget(SchemasCreator.createWidgetFor(matchEventType.getEventClass()))
+                        .build()));
         return matchEventsType;
     }
 

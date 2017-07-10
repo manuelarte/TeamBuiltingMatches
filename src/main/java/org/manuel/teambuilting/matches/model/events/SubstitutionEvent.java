@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 import com.mongodb.annotations.Immutable;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import org.manuel.teambuilting.matches.config.Widget;
 
 import javax.validation.constraints.AssertTrue;
 import java.util.Date;
@@ -25,18 +26,21 @@ public class SubstitutionEvent implements MatchEvent {
 
     @JsonProperty(required = true)
     @JsonPropertyDescription("When did the Substitution happen?")
+    @Widget(id = "time")
     private final Date when;
 
     /**
      * Id of the playerInfo who comes in
      */
     @JsonPropertyDescription("Player who comes in")
+    @Widget(id = "player")
     private final String in;
 
     /**
      * Id of the PlayerInfo who comes out
      */
     @JsonPropertyDescription("Player who goes out")
+    @Widget(id = "player")
     private final String out;
 
     @JsonPropertyDescription("More information to add")

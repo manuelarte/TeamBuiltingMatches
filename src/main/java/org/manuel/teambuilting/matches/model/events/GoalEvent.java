@@ -10,6 +10,7 @@ import com.mongodb.annotations.Immutable;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.hibernate.validator.constraints.NotEmpty;
+import org.manuel.teambuilting.matches.config.Widget;
 
 import java.util.Date;
 
@@ -28,12 +29,14 @@ public class GoalEvent implements MatchEvent{
 
     @JsonProperty(required = true)
     @JsonPropertyDescription("When did the Goal happen?")
+    @Widget(id = "time")
     private final Date when;
 
     /**
      * Id of the PlayerInfo who scored the goal
      */
     @JsonPropertyDescription("Player that scored the goal")
+    @Widget(id = "player")
     private final String who;
 
     /**
@@ -41,6 +44,7 @@ public class GoalEvent implements MatchEvent{
      */
     @JsonProperty(required = true)
     @JsonPropertyDescription("Team that scored the goal")
+    @Widget(id = "team")
     @NotEmpty
     private final String teamThatScored;
 

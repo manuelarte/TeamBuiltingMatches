@@ -4,8 +4,17 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.module.jsonSchema.JsonSchema;
 import com.fasterxml.jackson.module.jsonSchema.JsonSchemaGenerator;
 import lombok.SneakyThrows;
+import org.manuel.teambuilting.matches.config.Widget;
+import org.manuel.teambuilting.matches.model.dto.PropertyWidgetDto;
+import org.manuel.teambuilting.matches.model.dto.WidgetDto;
 import org.manuel.teambuilting.matches.model.events.GoalEvent;
+import org.manuel.teambuilting.matches.model.events.MatchEvent;
 import org.springframework.stereotype.Component;
+
+import java.lang.reflect.Field;
+import java.util.Arrays;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * @author Manuel Doncel Martos
@@ -37,6 +46,20 @@ public class SchemasCreator {
 
         return goalEventSchema;
 
+    }
+
+    public static WidgetDto createWidgetFor(final Class<? extends MatchEvent> clazz) {
+        final Field[] fields = clazz.getDeclaredFields();
+
+        final Map<String, PropertyWidgetDto> propertyWidgetDtoMap = Arrays.stream(fields)
+                .filter(field -> field.isAnnotationPresent(Widget.class))
+                .collect(Collectors.toMap(Field::getName, SchemasCreator::createPropertyWidgetDto));
+
+        return WidgetDto.builder().schemaProperties(propertyWidgetDtoMap).build();
+    }
+
+    private static PropertyWidgetDto createPropertyWidgetDto(final Field field) {
+        return PropertyWidgetDto.builder().id(field.getAnnotationsByType(Widget.class)[0].id()).build();
     }
 
 }
