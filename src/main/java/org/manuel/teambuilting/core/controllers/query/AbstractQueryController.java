@@ -3,11 +3,11 @@ package org.manuel.teambuilting.core.controllers.query;
 import org.manuel.teambuilting.core.services.query.BaseQueryService;
 import org.manuel.teambuilting.exceptions.ValidationRuntimeException;
 import org.springframework.beans.factory.InitializingBean;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.Assert;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.inject.Inject;
 import java.io.Serializable;
@@ -38,9 +38,9 @@ public abstract class AbstractQueryController<Entity, ID extends Serializable, Q
 		this.entityClass = (Class<Entity>) ((ParameterizedType) this.getClass().getGenericSuperclass()).getActualTypeArguments()[0];
 	}
 
-	@RequestMapping(path = "/{id}", method = RequestMethod.GET)
+	@GetMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Entity> findOne(@PathVariable("id") final ID id) {
-		Assert.notNull(id);
+		Assert.notNull(id, "Id cannot be null");
 		final Optional<Entity> entity = queryService.findOne(id);
 		if (entity.isPresent()) {
 			return ResponseEntity.ok(entity.get());

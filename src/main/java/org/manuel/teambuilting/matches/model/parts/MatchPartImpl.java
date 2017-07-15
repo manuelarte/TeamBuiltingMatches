@@ -34,19 +34,19 @@ public class MatchPartImpl implements MatchPart {
     private final Date startingTime;
 
 	@NotNull
-	private final Duration duration;
+	private final Date endingTime;
+
+    @JsonIgnore
+	@Override
+	public Duration getDuration() {
+        return Duration.ofMillis(endingTime.getTime() - startingTime.getTime());
+    }
 
 	@AssertTrue
     @SuppressWarnings("unused")
-	public boolean durationHasLength() {
-		return duration.getSeconds() > 0;
+	public boolean endingTimeIsGreaterThanStartingTime() {
+		return Duration.ofMillis(endingTime.getTime() - startingTime.getTime()).toMillis() > 0;
 	}
-
-    @Override
-    @JsonIgnore
-    public Date getEndingTime() {
-        return new Date(startingTime.getTime() + duration.toMillis());
-    }
 
     @Override
     @AssertTrue

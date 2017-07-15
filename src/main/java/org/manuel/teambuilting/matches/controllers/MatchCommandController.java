@@ -2,11 +2,9 @@ package org.manuel.teambuilting.matches.controllers;
 
 import lombok.AllArgsConstructor;
 import org.manuel.teambuilting.matches.model.Match;
-import org.manuel.teambuilting.matches.services.MatchCommandService;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.manuel.teambuilting.matches.services.command.MatchCommandService;
+import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
@@ -21,7 +19,7 @@ public class MatchCommandController {
 
     private final MatchCommandService matchCommandService;
 
-    @RequestMapping(method = RequestMethod.POST, produces = "application/json")
+    @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public Match saveMatch(@Valid @RequestBody final Match match) {
         final Match saved = matchCommandService.save(match);
         return saved;

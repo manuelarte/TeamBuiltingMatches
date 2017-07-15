@@ -1,4 +1,4 @@
-package org.manuel.teambuilting.matches.services;
+package org.manuel.teambuilting.matches.services.command;
 
 import org.manuel.teambuilting.core.services.command.BaseCommandService;
 import org.manuel.teambuilting.matches.model.Match;
