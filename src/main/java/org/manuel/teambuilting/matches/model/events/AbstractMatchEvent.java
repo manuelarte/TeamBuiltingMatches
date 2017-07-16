@@ -24,7 +24,7 @@ public abstract class AbstractMatchEvent implements MatchEvent {
     @Ui(widget = @Widget(id = "time"))
     protected final Date when;
 
-    @JsonPropertyDescription("Description of the injury")
+    @JsonPropertyDescription("Description")
     protected final String description;
 
 }

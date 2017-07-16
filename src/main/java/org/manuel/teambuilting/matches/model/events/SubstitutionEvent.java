@@ -1,10 +1,12 @@
 package org.manuel.teambuilting.matches.model.events;
 
-import com.fasterxml.jackson.annotation.*;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonPropertyDescription;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 import com.mongodb.annotations.Immutable;
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.manuel.teambuilting.matches.config.Ui;
 import org.manuel.teambuilting.matches.config.Widget;
@@ -18,20 +20,11 @@ import java.util.Date;
 @JsonDeserialize(builder = SubstitutionEvent.SubstitutionEventBuilder.class)
 @Immutable
 @Data
-@lombok.Builder
-@AllArgsConstructor
 /**
  * @author Manuel Doncel Martos
  * @since 21/06/2017.
  */
-public class SubstitutionEvent implements MatchEvent {
-
-    private final String id;
-
-    @JsonProperty(required = true)
-    @JsonPropertyDescription("When did the Substitution happen?")
-    @Ui(widget = @Widget(id = "time"))
-    private final Date when;
+public class SubstitutionEvent extends AbstractMatchEvent {
 
     /**
      * Id of the playerInfo who comes in
@@ -47,8 +40,12 @@ public class SubstitutionEvent implements MatchEvent {
     @Ui(widget = @Widget(id = "player"), tableProperty = true)
     private final String out;
 
-    @JsonPropertyDescription("More information to add")
-    private final String description;
+    @lombok.Builder
+    public SubstitutionEvent(final String id, final Date when, final String description, final String in, final String out) {
+        super(id, when, description);
+        this.in = in;
+        this.out = out;
+    }
 
     @JsonIgnore
     @Override

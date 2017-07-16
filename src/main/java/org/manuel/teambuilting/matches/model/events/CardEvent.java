@@ -26,7 +26,7 @@ public class CardEvent extends AbstractMatchEvent {
      * Id of the PlayerInfo who scored the goal
      */
     @JsonProperty(required = true)
-    @JsonPropertyDescription("Player who got injured")
+    @JsonPropertyDescription("Player who got the card")
     @Ui(widget = @Widget(id = "player"), tableProperty = true)
     private final String who;
 
