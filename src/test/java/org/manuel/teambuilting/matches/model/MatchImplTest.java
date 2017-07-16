@@ -41,7 +41,8 @@ public class MatchImplTest {
         final Date startingTime = new Date();
         final Duration duration = Duration.ofMinutes(45);
         final List<MatchEvent> matchEvents = new ArrayList<>();
-        final MatchPart part = MatchPartImpl.builder().startingTime(startingTime).duration(duration).build();
+        final MatchPart part = MatchPartImpl.builder().startingTime(startingTime)
+                .endingTime(new Date(startingTime.getTime() + duration.toMillis())).build();
 
         final Match match = MatchImpl.builder().homeTeam(homeTeam).awayTeam(awayTeam).matchPart(part).events(matchEvents).build();
         assertTrue(part.getDuration().compareTo(match.getDuration()) == 0);
@@ -68,8 +69,11 @@ public class MatchImplTest {
         final Duration durationPart2 = Duration.ofMinutes(45);
 
         final List<MatchEvent> matchEvents = new ArrayList<>();
-        final MatchPart part = MatchPartImpl.builder().startingTime(startingTimePart).duration(durationPart).build();
-        final MatchPart part2 = MatchPartImpl.builder().startingTime(startingTimePart2).duration(durationPart2).duration(Duration.ofMinutes(45)).build();
+        final MatchPart part = MatchPartImpl.builder().startingTime(startingTimePart)
+                .endingTime(new Date(startingTimePart.getTime() + durationPart.toMillis()))
+                .build();
+        final MatchPart part2 = MatchPartImpl.builder().startingTime(startingTimePart2)
+                .endingTime(new Date(startingTimePart2.getTime() + durationPart2.toMillis())).build();
         final List<MatchPart> parts = Lists.newArrayList(part, part2);
 
         final Match match = MatchImpl.builder().homeTeam(homeTeam).awayTeam(awayTeam).matchParts(parts).events(matchEvents).build();
@@ -91,7 +95,8 @@ public class MatchImplTest {
 
         final Date startingTime = new Date();
         final Duration duration = Duration.ofMinutes(45);
-        final MatchPart part = MatchPartImpl.builder().startingTime(startingTime).duration(duration).build();
+        final MatchPart part = MatchPartImpl.builder().startingTime(startingTime)
+                .endingTime(new Date(startingTime.getTime() + duration.toMillis())).build();
 
         final MatchEvent goalEvent = GoalEvent.builder().when(new Date()).teamThatScored(teamInfoId).build();
 

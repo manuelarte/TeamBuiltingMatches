@@ -1,10 +1,9 @@
-package org.manuel.teambuilting.matches.model.dto;
+package org.manuel.teambuilting.matches.model.dto.ui;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
-import com.fasterxml.jackson.module.jsonSchema.JsonSchema;
 import com.mongodb.annotations.Immutable;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -15,18 +14,17 @@ import lombok.Data;
  */
 @JsonIgnoreProperties
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@JsonDeserialize(builder = SchemaAndWidgetDto.SchemaAndWidgetDtoBuilder.class)
+@JsonDeserialize(builder = PropertyUiDto.PropertyUiDtoBuilder.class)
 @Immutable
 @Data
 @lombok.Builder
 @AllArgsConstructor
-public class SchemaAndWidgetDto {
+public class PropertyUiDto {
 
-    private final JsonSchema schema;
-    private final WidgetDto widget;
+    private final PropertyWidgetDto widget;
 
     @JsonPOJOBuilder(withPrefix = "")
-    public static class SchemaAndWidgetDtoBuilder {
+    public static class PropertyUiDtoBuilder {
 
     }
 

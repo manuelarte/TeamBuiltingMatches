@@ -13,27 +13,33 @@ import java.util.Date;
 
 @JsonIgnoreProperties
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@JsonDeserialize(builder = InjuryEvent.InjuryEventBuilder.class)
+@JsonDeserialize(builder = CardEvent.InjuryEventBuilder.class)
 @Immutable
 @Data
 /**
  * @author Manuel Doncel Martos
  * @since 21/06/2017.
  */
-public class InjuryEvent extends AbstractMatchEvent {
+public class CardEvent extends AbstractMatchEvent {
 
     /**
      * Id of the PlayerInfo who scored the goal
      */
     @JsonProperty(required = true)
-    @JsonPropertyDescription("Id of the PlayerInfo that got injured")
+    @JsonPropertyDescription("Player who got injured")
     @Ui(widget = @Widget(id = "player"), tableProperty = true)
     private final String who;
 
+    @JsonProperty(required = true)
+    @JsonPropertyDescription("Card color")
+    @Ui(widget = @Widget(id = "string"), tableProperty = true)
+    private final String card;
+
     @lombok.Builder
-    public InjuryEvent(final String id, final Date when, final String description, final String who) {
+    public CardEvent(final String id, final Date when, final String description, final String who, final String card) {
         super(id, when, description);
         this.who = who;
+        this.card = card;
     }
 
     @JsonIgnore

@@ -2,7 +2,7 @@ package org.manuel.teambuilting.matches.model.events.schemas;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.junit.jupiter.api.Test;
-import org.manuel.teambuilting.matches.model.dto.WidgetDto;
+import org.manuel.teambuilting.matches.model.dto.UiDto;
 import org.manuel.teambuilting.matches.model.events.GoalEvent;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -20,9 +20,9 @@ public class SchemasCreatorTest {
 
     @Test
     public void testCreateWidgetForGoalEvent() {
-        final WidgetDto widgetForGoalEvent = SchemasCreator.createWidgetFor(GoalEvent.class);
-        assertTrue(widgetForGoalEvent.getSchemaProperties().containsKey("who"));
-        assertTrue("player".equals(widgetForGoalEvent.getSchemaProperties().get("who").getId()));
+        final UiDto uiForGoalEvent = SchemasCreator.createUiFor(GoalEvent.class);
+        assertTrue(uiForGoalEvent.getProperties().containsKey("who"));
+        assertTrue("player".equals(uiForGoalEvent.getProperties().get("who").getWidget().getId()));
     }
 
 }

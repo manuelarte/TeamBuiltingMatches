@@ -58,6 +58,11 @@ public class MatchPartImpl implements MatchPart {
     @JsonPOJOBuilder(withPrefix = "")
 	public static class MatchPartImplBuilder {
 
+        public MatchPartImplBuilder duration(final Duration duration) {
+            this.endingTime = new Date(startingTime.getTime() + duration.toMillis());
+            return this;
+        }
+
 	}
 	
 }

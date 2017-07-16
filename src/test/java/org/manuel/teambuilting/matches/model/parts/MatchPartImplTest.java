@@ -35,7 +35,7 @@ public class MatchPartImplTest {
         final MatchPart matchPart = MatchPartImpl.builder().startingTime(startingTime).duration(duration).build();
         final JSONObject json = new JSONObject(mapper.writeValueAsString(matchPart));
         assertTrue(json.has("startingTime"));
-        assertTrue(json.has("duration"));
+        assertTrue(json.has("endingTime"));
     }
 
 }

@@ -1,13 +1,13 @@
 package org.manuel.teambuilting.matches.model.dto;
 
-import com.fasterxml.jackson.annotation.*;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
+import com.fasterxml.jackson.module.jsonSchema.JsonSchema;
 import com.mongodb.annotations.Immutable;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-
-import java.util.Map;
 
 /**
  * @author Manuel Doncel Martos
@@ -15,23 +15,18 @@ import java.util.Map;
  */
 @JsonIgnoreProperties
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@JsonDeserialize(builder = WidgetDto.WidgetDtoBuilder.class)
+@JsonDeserialize(builder = SchemaAndUiDto.SchemaAndUiDtoBuilder.class)
 @Immutable
 @Data
 @lombok.Builder
 @AllArgsConstructor
-public class WidgetDto {
+public class SchemaAndUiDto {
 
-    @JsonIgnore
-    private final Map<String, PropertyWidgetDto> schemaProperties;
-
-    @JsonAnyGetter
-    public Map<String, PropertyWidgetDto> getSchemaProperties() {
-        return this.schemaProperties;
-    }
+    private final JsonSchema schema;
+    private final UiDto ui;
 
     @JsonPOJOBuilder(withPrefix = "")
-    public static class WidgetDtoBuilder {
+    public static class SchemaAndWidgetDtoBuilder {
 
     }
 

@@ -80,7 +80,8 @@ public class MatchRepositoryTest {
                 .teamThatScored(homeTeam.getTeamInfo().getId()).build();
         final List<MatchEvent> matchEvents = Arrays.asList(firstGoalEvent);
 
-        final MatchPart part = MatchPartImpl.builder().startingTime(startingTime).duration(duration).build();
+        final MatchPart part = MatchPartImpl.builder().startingTime(startingTime)
+                .endingTime(new Date(startingTime.getTime() + duration.toMillis())).build();
 
         final Match match = MatchImpl.builder().homeTeam(homeTeam).awayTeam(awayTeam).matchPart(part).events(matchEvents).build();
         matchRepository.save(match);

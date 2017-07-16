@@ -16,6 +16,7 @@ public enum MatchEventType {
     GOAL(GoalEvent.class, SchemasCreator.createSchemaFor(GoalEvent.class)),
     SUBSTITUTION(SubstitutionEvent.class, SchemasCreator.createSchemaFor(SubstitutionEvent.class)),
     INJURY(InjuryEvent.class, SchemasCreator.createSchemaFor(InjuryEvent.class)),
+    CARD(CardEvent.class, SchemasCreator.createSchemaFor(CardEvent.class)),
     CUSTOM(CustomEvent.class, SchemasCreator.createSchemaFor(CustomEvent.class));
 
     private final Class<? extends MatchEvent> eventClass;

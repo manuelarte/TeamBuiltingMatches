@@ -4,17 +4,19 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.module.jsonSchema.JsonSchema;
 import com.fasterxml.jackson.module.jsonSchema.JsonSchemaGenerator;
 import lombok.SneakyThrows;
-import org.manuel.teambuilting.matches.config.Widget;
-import org.manuel.teambuilting.matches.model.dto.PropertyWidgetDto;
-import org.manuel.teambuilting.matches.model.dto.WidgetDto;
-import org.manuel.teambuilting.matches.model.events.GoalEvent;
+import org.manuel.teambuilting.matches.config.Ui;
+import org.manuel.teambuilting.matches.model.dto.UiDto;
+import org.manuel.teambuilting.matches.model.dto.ui.PropertyUiDto;
+import org.manuel.teambuilting.matches.model.dto.ui.PropertyWidgetDto;
 import org.manuel.teambuilting.matches.model.events.MatchEvent;
 import org.springframework.stereotype.Component;
 
 import java.lang.reflect.Field;
 import java.util.Arrays;
 import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * @author Manuel Doncel Martos
@@ -31,35 +33,29 @@ public class SchemasCreator {
         return generator.generateSchema(clazz);
     }
 
-    @SneakyThrows
-    public static JsonSchema createGoalEventSchema() {
-        final JsonSchema goalEventSchema = generator.generateSchema(GoalEvent.class);
+    public static UiDto createUiFor(final Class<? extends MatchEvent> clazz) {
+        final Field[] parentFields = !clazz.getSuperclass().equals(Object.class)?
+                clazz.getSuperclass().getDeclaredFields() : new Field[]{};
+        final Field[] fields = Stream.concat(Arrays.stream(clazz.getDeclaredFields()),
+                Arrays.stream(parentFields))
+                .toArray(Field[]::new);
 
-        /*
-        final ObjectSchema whoSchema = goalEventSchema.asObjectSchema().getProperties().get("who").asObjectSchema();
-        whoSchema.asObjectSchema().setEnums(players.stream().map(PlayerInfo::getId).collect(Collectors.toSet()))
-        */
-        /*
-        final ObjectSchema teamThatScoredPropertySchema = goalEventSchema.asObjectSchema().getProperties().get("teamThatScored").asObjectSchema();
-        teamThatScoredPropertySchema.asObjectSchema().setEnums(Sets.newHashSet(match.getHomeTeam().getTeamInfo().getId(), match.getAwayTeam().getTeamInfo().getId()))
-        */
+        final Set<String> tableProperties = Arrays.stream(fields)
+                .filter(field -> field.isAnnotationPresent(Ui.class)
+                        && field.getAnnotationsByType(Ui.class)[0].tableProperty()).map(Field::getName).collect(Collectors.toSet());
 
-        return goalEventSchema;
+        final Map<String, PropertyUiDto> propertyUiDtoMap = Arrays.stream(fields)
+                .filter(field -> field.isAnnotationPresent(Ui.class))
+                .collect(Collectors.toMap(Field::getName, SchemasCreator::createUiDto));
 
+        return UiDto.builder().tableProperties(tableProperties).properties(propertyUiDtoMap).build();
     }
 
-    public static WidgetDto createWidgetFor(final Class<? extends MatchEvent> clazz) {
-        final Field[] fields = clazz.getDeclaredFields();
-
-        final Map<String, PropertyWidgetDto> propertyWidgetDtoMap = Arrays.stream(fields)
-                .filter(field -> field.isAnnotationPresent(Widget.class))
-                .collect(Collectors.toMap(Field::getName, SchemasCreator::createPropertyWidgetDto));
-
-        return WidgetDto.builder().schemaProperties(propertyWidgetDtoMap).build();
-    }
-
-    private static PropertyWidgetDto createPropertyWidgetDto(final Field field) {
-        return PropertyWidgetDto.builder().id(field.getAnnotationsByType(Widget.class)[0].id()).build();
+    private static PropertyUiDto createUiDto(final Field field) {
+        final Ui ui = field.getAnnotationsByType(Ui.class)[0];
+        return PropertyUiDto.builder()
+                .widget(PropertyWidgetDto.builder().id(ui.widget().id()).build())
+                .build();
     }
 
 }

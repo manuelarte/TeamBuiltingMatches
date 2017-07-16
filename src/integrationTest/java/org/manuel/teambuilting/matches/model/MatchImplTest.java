@@ -54,7 +54,8 @@ public class MatchImplTest {
 
         final Date startingTime = new Date();
 
-        final MatchPart part = MatchPartImpl.builder().startingTime(startingTime).duration(Duration.ofMinutes(45)).build();
+        final MatchPart part = MatchPartImpl.builder().startingTime(startingTime)
+                .endingTime(new Date(startingTime.getTime() + Duration.ofMinutes(45).toMillis())).build();
 
         final Match match = MatchImpl.builder().homeTeam(homeTeam).awayTeam(awayTeam).matchPart(part).build();
         matchRepository.save(match);

@@ -1,4 +1,4 @@
-package org.manuel.teambuilting.matches.model.dto;
+package org.manuel.teambuilting.matches.model.dto.ui;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;

@@ -2,6 +2,7 @@ package org.manuel.teambuilting.matches.model.events;
 
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.databind.annotation.JsonTypeIdResolver;
+import org.manuel.teambuilting.matches.model.MatchItemValidable;
 
 import java.util.Date;
 
@@ -13,7 +14,9 @@ import java.util.Date;
  */
 @JsonTypeInfo(use=JsonTypeInfo.Id.CUSTOM, include=JsonTypeInfo.As.WRAPPER_OBJECT)
 @JsonTypeIdResolver(MatchEventTypeIdResolver.class)
-public interface MatchEvent {
+public interface MatchEvent extends MatchItemValidable {
+
+	String getId();
 
 	/**
 	 * When the event happened
