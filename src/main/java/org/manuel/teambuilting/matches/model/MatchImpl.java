@@ -9,8 +9,8 @@ import com.mongodb.annotations.Immutable;
 import lombok.Data;
 import lombok.Singular;
 import org.hibernate.validator.constraints.NotEmpty;
-import org.manuel.teambuilting.matches.model.parts.MatchPart;
 import org.manuel.teambuilting.matches.model.events.MatchEvent;
+import org.manuel.teambuilting.matches.model.parts.MatchPart;
 import org.manuel.teambuilting.matches.model.team.RegisteredTeamInfo;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -19,10 +19,7 @@ import javax.validation.Valid;
 import javax.validation.constraints.AssertTrue;
 import javax.validation.constraints.NotNull;
 import java.time.Duration;
-import java.util.Comparator;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static org.manuel.teambuilting.matches.util.Util.MAX_DURATION_OF_MATCH;
@@ -66,9 +63,12 @@ public class MatchImpl implements Match {
     @Valid
     private final List<MatchEvent> events;
 
+    @NotEmpty
+    private final Set<String> tags;
+
     public MatchImpl(final String id, final TeamInMatch homeTeam, final TeamInMatch awayTeam,
                      final String location, final List<MatchPart> matchParts, final String description,
-                     final List<MatchEvent> events) {
+                     final List<MatchEvent> events, final Set<String> tags) {
         this.id = id;
         this.homeTeam = homeTeam;
         this.awayTeam = awayTeam;
@@ -76,6 +76,7 @@ public class MatchImpl implements Match {
         this.matchParts = Ordering.from(sortByStartingTime()).sortedCopy(matchParts);
         this.description = description;
         this.events = events;
+        this.tags = tags;
     }
 
     @Override

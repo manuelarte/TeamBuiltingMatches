@@ -8,6 +8,7 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 import com.mongodb.annotations.Immutable;
 import lombok.Data;
+import org.hibernate.validator.constraints.NotEmpty;
 import org.manuel.teambuilting.matches.config.Ui;
 import org.manuel.teambuilting.matches.config.Widget;
 import org.manuel.teambuilting.matches.model.Match;
@@ -29,6 +30,14 @@ public class SubstitutionEvent extends AbstractMatchEvent {
     /**
      * Id of the playerInfo who comes in
      */
+    @JsonPropertyDescription("Team that makes the substitution")
+    @Ui(widget = @Widget(id = "team"), tableProperty = true)
+    @NotEmpty
+    private final String team;
+
+    /**
+     * Id of the playerInfo who comes in
+     */
     @JsonPropertyDescription("Player who comes in")
     @Ui(widget = @Widget(id = "player"), tableProperty = true)
     private final String in;
@@ -41,8 +50,9 @@ public class SubstitutionEvent extends AbstractMatchEvent {
     private final String out;
 
     @lombok.Builder
-    public SubstitutionEvent(final String id, final Date when, final String description, final String in, final String out) {
+    public SubstitutionEvent(final String id, final Date when, final String description, final String team, final String in, final String out) {
         super(id, when, description);
+        this.team = team;
         this.in = in;
         this.out = out;
     }
