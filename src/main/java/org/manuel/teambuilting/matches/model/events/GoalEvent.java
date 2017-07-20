@@ -33,6 +33,10 @@ public class GoalEvent extends AbstractMatchEvent {
     @Ui(widget = @Widget(id = "player"), tableProperty = true)
     private final String who;
 
+    @JsonPropertyDescription("Player that assisted")
+    @Ui(widget = @Widget(id = "player"), tableProperty = true)
+    private final String assist;
+
     /**
      * The team that scored the goal
      */
@@ -43,9 +47,10 @@ public class GoalEvent extends AbstractMatchEvent {
     private final String teamThatScored;
 
     @lombok.Builder
-    public GoalEvent(final String id, final Date when, final String description, final String who, final String teamThatScored) {
+    public GoalEvent(final String id, final Date when, final String description, final String who, final String assist, final String teamThatScored) {
       super(id, when, description);
       this.who = who;
+      this.assist = assist;
       this.teamThatScored = teamThatScored;
     }
 
