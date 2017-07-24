@@ -10,12 +10,14 @@ import com.mongodb.annotations.Immutable;
 import lombok.Data;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.manuel.teambuilting.matches.config.Ui;
+import org.manuel.teambuilting.matches.config.UiProperty;
 import org.manuel.teambuilting.matches.config.Widget;
 import org.manuel.teambuilting.matches.model.Match;
 
 import javax.validation.constraints.AssertTrue;
 import java.util.Date;
 
+@Ui(iconName = "substitution", teamProperty = "team", playerProperty = "in")
 @JsonIgnoreProperties
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonDeserialize(builder = SubstitutionEvent.SubstitutionEventBuilder.class)
@@ -31,7 +33,7 @@ public class SubstitutionEvent extends AbstractMatchEvent {
      * Id of the playerInfo who comes in
      */
     @JsonPropertyDescription("Team that makes the substitution")
-    @Ui(widget = @Widget(id = "team"), tableProperty = true)
+    @UiProperty(widget = @Widget(id = "team"), tableProperty = true)
     @NotEmpty
     private final String team;
 
@@ -39,14 +41,14 @@ public class SubstitutionEvent extends AbstractMatchEvent {
      * Id of the playerInfo who comes in
      */
     @JsonPropertyDescription("Player who comes in")
-    @Ui(widget = @Widget(id = "player"), tableProperty = true)
+    @UiProperty(widget = @Widget(id = "player"), tableProperty = true)
     private final String in;
 
     /**
      * Id of the PlayerInfo who comes out
      */
     @JsonPropertyDescription("Player who goes out")
-    @Ui(widget = @Widget(id = "player"), tableProperty = true)
+    @UiProperty(widget = @Widget(id = "player"), tableProperty = true)
     private final String out;
 
     @lombok.Builder

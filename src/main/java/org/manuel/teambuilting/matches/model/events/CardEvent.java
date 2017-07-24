@@ -6,11 +6,13 @@ import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 import com.mongodb.annotations.Immutable;
 import lombok.Data;
 import org.manuel.teambuilting.matches.config.Ui;
+import org.manuel.teambuilting.matches.config.UiProperty;
 import org.manuel.teambuilting.matches.config.Widget;
 import org.manuel.teambuilting.matches.model.Match;
 
 import java.util.Date;
 
+@Ui(iconName = "card", playerProperty = "who")
 @JsonIgnoreProperties
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonDeserialize(builder = CardEvent.InjuryEventBuilder.class)
@@ -27,12 +29,12 @@ public class CardEvent extends AbstractMatchEvent {
      */
     @JsonProperty(required = true)
     @JsonPropertyDescription("Player who got the card")
-    @Ui(widget = @Widget(id = "player"), tableProperty = true)
+    @UiProperty(widget = @Widget(id = "player"), tableProperty = true)
     private final String who;
 
     @JsonProperty(required = true)
     @JsonPropertyDescription("Card color")
-    @Ui(widget = @Widget(id = "string"), tableProperty = true)
+    @UiProperty(widget = @Widget(id = "string"), tableProperty = true)
     private final String card;
 
     @lombok.Builder

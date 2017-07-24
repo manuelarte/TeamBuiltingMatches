@@ -7,6 +7,7 @@ import com.mongodb.annotations.Immutable;
 import lombok.Data;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.manuel.teambuilting.matches.config.Ui;
+import org.manuel.teambuilting.matches.config.UiProperty;
 import org.manuel.teambuilting.matches.config.Widget;
 import org.manuel.teambuilting.matches.model.Match;
 import org.manuel.teambuilting.matches.model.team.TeamInfo;
@@ -15,6 +16,7 @@ import org.springframework.data.util.Pair;
 
 import java.util.Date;
 
+@Ui(iconName = "goal", teamProperty = "teamThatScored", playerProperty = "who")
 @JsonIgnoreProperties
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonDeserialize(builder = GoalEvent.GoalEventBuilder.class)
@@ -30,11 +32,11 @@ public class GoalEvent extends AbstractMatchEvent {
      * Id of the PlayerInfo who scored the goal
      */
     @JsonPropertyDescription("Player that scored the goal")
-    @Ui(widget = @Widget(id = "player"), tableProperty = true)
+    @UiProperty(widget = @Widget(id = "player"), tableProperty = true)
     private final String who;
 
     @JsonPropertyDescription("Player that assisted")
-    @Ui(widget = @Widget(id = "player"), tableProperty = true)
+    @UiProperty(widget = @Widget(id = "player"), tableProperty = true)
     private final String assist;
 
     /**
@@ -42,7 +44,7 @@ public class GoalEvent extends AbstractMatchEvent {
      */
     @JsonProperty(required = true)
     @JsonPropertyDescription("Team that scored the goal")
-    @Ui(widget = @Widget(id = "team"), tableProperty = true)
+    @UiProperty(widget = @Widget(id = "team"), tableProperty = true)
     @NotEmpty
     private final String teamThatScored;
 

@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyDescription;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import org.manuel.teambuilting.matches.config.Ui;
+import org.manuel.teambuilting.matches.config.UiProperty;
 import org.manuel.teambuilting.matches.config.Widget;
 
 import java.util.Date;
@@ -21,7 +21,7 @@ public abstract class AbstractMatchEvent implements MatchEvent {
 
     @JsonProperty(required = true)
     @JsonPropertyDescription("When did it happen?")
-    @Ui(widget = @Widget(id = "time"))
+    @UiProperty(widget = @Widget(id = "time"))
     protected final Date when;
 
     @JsonPropertyDescription("Description")

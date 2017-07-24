@@ -25,6 +25,12 @@ import java.util.Set;
 @AllArgsConstructor
 public class UiDto {
 
+    private final String iconName;
+
+    private final String teamProperty;
+
+    private final String playerProperty;
+
     @NotNull
     private final Set<String> tableProperties;
 

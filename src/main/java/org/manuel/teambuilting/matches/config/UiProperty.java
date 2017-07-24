@@ -9,12 +9,11 @@ import java.lang.annotation.Target;
  * @author Manuel Doncel Martos
  * @since 09/07/2017.
  */
-@Target({ ElementType.TYPE })
+@Target({ ElementType.FIELD })
 @Retention(RetentionPolicy.RUNTIME)
-public @interface Ui {
+public @interface UiProperty {
 
-    String iconName();
-    String teamProperty() default "";
-    String playerProperty() default "";
+    Widget widget();
 
+    boolean tableProperty() default false;
 }
