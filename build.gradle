@@ -29,7 +29,6 @@ def excludedClasses() {
 	return [
 			'**/org/manuel/teambuilting/matches/controllers/*.*',
 			'**/org/manuel/teambuilting/matches/config/*.*',
-			'**/org/manuel/teambuilting/messages/*.*',
 			'**/org/manuel/teambuilting/matches/listeners/*.*',
 	]
 }
@@ -117,6 +116,7 @@ repositories {
 	mavenLocal()
 	maven { url 'https://repo.spring.io/milestone' }
 	mavenCentral()
+    maven { url "$projectDir/repo" }
 }
 
 dependencies {
@@ -132,6 +132,8 @@ dependencies {
 	compile 'org.springframework.data:spring-data-mongodb:1.10.4.RELEASE'
     compile 'org.springframework.data:spring-data-jpa:1.11.4.RELEASE'
 
+	compile 'org.manuel.teambuilting:teambuilting-exceptions:0.1.0-SNAPSHOT'
+    compile 'org.manuel.teambuilting:teambuilting-messages:0.1.0-SNAPSHOT'
 
     compile 'com.auth0:auth0-spring-security-mvc:1.2.3'
     compile 'com.auth0:auth0-spring-security-api:1.0.0-rc.2'
@@ -192,3 +194,11 @@ dependencyUpdates.resolutionStrategy = {
 task stage {
     dependsOn build
 }
+
+task procfileTxt() {
+    def file = new File("$projectDir/Procfile")
+    file.createNewFile()
+    file.text = """web: java -Dserver.port=\$PORT -Dspring.profiles.active=production -jar build/libs/${microserviceName}-${version}.jar"""
+}
+
+build.finalizedBy(procfileTxt)

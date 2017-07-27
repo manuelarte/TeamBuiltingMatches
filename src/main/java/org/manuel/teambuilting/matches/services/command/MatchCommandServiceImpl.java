@@ -1,14 +1,14 @@
 package org.manuel.teambuilting.matches.services.command;
 
 import org.manuel.teambuilting.core.services.command.AbstractCommandService;
-import org.manuel.teambuilting.exceptions.ValidationRuntimeException;
+import org.manuel.teambuilting.core.exceptions.ValidationRuntimeException;
 import org.manuel.teambuilting.matches.model.Match;
 import org.manuel.teambuilting.matches.repositories.MatchRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.Set;
 
-import static org.manuel.teambuilting.exceptions.ErrorCode.ENTRY_OVERLAPS;
+import static org.manuel.teambuilting.core.exceptions.ErrorCode.ENTRY_OVERLAPS;
 
 /**
  * @author Manuel Doncel Martos
