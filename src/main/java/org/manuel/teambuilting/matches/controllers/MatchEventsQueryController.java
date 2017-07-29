@@ -4,8 +4,8 @@ import lombok.AllArgsConstructor;
 import org.manuel.teambuilting.matches.model.dto.SchemaAndUiDto;
 import org.manuel.teambuilting.matches.model.events.MatchEventType;
 import org.manuel.teambuilting.matches.model.events.schemas.SchemasCreator;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Map;
@@ -23,7 +23,7 @@ public class MatchEventsQueryController {
 
     private final SchemasCreator schemasCreator;
 
-    @RequestMapping(method = RequestMethod.GET, produces = "application/json")
+    @GetMapping(produces = "application/json")
     public Map<String, SchemaAndUiDto> getMatchEvents() {
         final Map<String, SchemaAndUiDto> matchEventsType = Stream.of(MatchEventType.values())
                 .collect(Collectors.toMap(MatchEventType::value,
