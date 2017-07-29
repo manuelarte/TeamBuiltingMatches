@@ -132,6 +132,7 @@ dependencies {
 	compile 'org.springframework.data:spring-data-mongodb:1.10.4.RELEASE'
     compile 'org.springframework.data:spring-data-jpa:1.11.4.RELEASE'
 
+	compile 'org.manuel.teambuilting:teambuilting-core:0.1.0-SNAPSHOT'
 	compile 'org.manuel.teambuilting:teambuilting-exceptions:0.1.0-SNAPSHOT'
     compile 'org.manuel.teambuilting:teambuilting-messages:0.1.0-SNAPSHOT'
 
