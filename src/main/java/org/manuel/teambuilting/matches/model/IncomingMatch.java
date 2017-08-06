@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
-import com.google.common.collect.Ordering;
 import com.mongodb.annotations.Immutable;
 import lombok.Data;
 import lombok.Singular;
@@ -13,7 +12,6 @@ import org.manuel.teambuilting.matches.model.events.MatchEvent;
 import org.manuel.teambuilting.matches.model.parts.MatchPart;
 import org.manuel.teambuilting.matches.model.team.RegisteredTeamInfo;
 import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import javax.validation.Valid;
@@ -27,7 +25,7 @@ import static org.manuel.teambuilting.matches.util.Util.MAX_DURATION_OF_MATCH;
 
 @JsonIgnoreProperties
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@JsonDeserialize(builder = MatchImpl.MatchImplBuilder.class)
+@JsonDeserialize(builder = IncomingMatch.IncomingMatchBuilder.class)
 @Immutable
 @Document
 @Data
@@ -38,77 +36,55 @@ import static org.manuel.teambuilting.matches.util.Util.MAX_DURATION_OF_MATCH;
  * 
  * The Match
  */
-public class MatchImpl implements Match {
-	
+public class IncomingMatch {
+
 	@Id
 	private final String id;
 
 	@NotNull
-    @Indexed
-    private final String createdBy;
-	
-	@NotNull
     @Valid
 	private final TeamInMatch homeTeam;
-	
+
 	@NotNull
     @Valid
 	private final TeamInMatch awayTeam;
 
 	private final String location;
-	
+
 	@NotEmpty
     @Valid
 	@Singular
 	private final List<MatchPart> matchParts;
-	
+
 	private final String description;
 
     @NotNull
     @Valid
     private final List<MatchEvent> events;
 
-    @NotEmpty
+    @NotNull
     @Singular
     private final Set<String> tags;
 
-    public MatchImpl(final String id, final String createdBy, final TeamInMatch homeTeam, final TeamInMatch awayTeam,
-                     final String location, final List<MatchPart> matchParts, final String description,
-                     final List<MatchEvent> events, final Set<String> tags) {
-        this.id = id;
-        this.createdBy = createdBy;
-        this.homeTeam = homeTeam;
-        this.awayTeam = awayTeam;
-        this.location = location;
-        this.matchParts = Ordering.from(sortByStartingTime()).sortedCopy(matchParts);
-        this.description = description;
-        this.events = events;
-        this.tags = tags;
-    }
-
-    @Override
-	public List<MatchPart> getMatchParts() {
+    public List<MatchPart> getMatchParts() {
         return matchParts;
-	}
-
-	@Override
-    public Date getStartingTime() {
-	    return getMatchParts().get(0).getStartingTime();
     }
 
-    @Override
+    public Date getStartingTime() {
+        return getMatchParts().get(0).getStartingTime();
+    }
+
     public Date getEndingTime() {
         return new Date(getStartingTime().getTime() + getDuration().toMillis());
     }
 
-    @Override
-	public Duration getDuration() {
-		Duration totalDuration = Duration.ZERO;
-		for (MatchPart part : matchParts) {
-		    totalDuration = totalDuration.plus(part.getDuration());
+    public Duration getDuration() {
+        Duration totalDuration = Duration.ZERO;
+        for (MatchPart part : matchParts) {
+            totalDuration = totalDuration.plus(part.getDuration());
         }
-		return totalDuration;
-	}
+        return totalDuration;
+    }
 
 	@AssertTrue
     public boolean matchPartsNoOverlap() {
@@ -151,7 +127,7 @@ public class MatchImpl implements Match {
     }
 
     @JsonPOJOBuilder(withPrefix = "")
-	public static class MatchImplBuilder {
+	public static class IncomingMatchBuilder {
 		
 	}
 

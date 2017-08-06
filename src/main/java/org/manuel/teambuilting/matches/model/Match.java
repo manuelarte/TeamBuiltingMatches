@@ -20,6 +20,8 @@ public interface Match {
 	
 	String getId();
 
+	String getCreatedBy();
+
 	Date getStartingTime();
 
     Date getEndingTime();

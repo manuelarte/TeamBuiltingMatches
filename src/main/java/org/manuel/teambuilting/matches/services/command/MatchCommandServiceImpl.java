@@ -4,6 +4,7 @@ import org.manuel.teambuilting.core.services.command.AbstractCommandService;
 import org.manuel.teambuilting.core.exceptions.ValidationRuntimeException;
 import org.manuel.teambuilting.matches.model.Match;
 import org.manuel.teambuilting.matches.repositories.MatchRepository;
+import org.manuel.teambuilting.core.utils.Util;
 import org.springframework.stereotype.Service;
 
 import java.util.Set;
@@ -17,8 +18,11 @@ import static org.manuel.teambuilting.core.exceptions.ErrorCode.ENTRY_OVERLAPS;
 @Service
 class MatchCommandServiceImpl extends AbstractCommandService<Match, String, MatchRepository> implements MatchCommandService {
 
-    public MatchCommandServiceImpl(final MatchRepository repository) {
+    private final Util util;
+
+    public MatchCommandServiceImpl(final MatchRepository repository, final Util util) {
         super(repository);
+        this.util = util;
     }
 
     @Override
