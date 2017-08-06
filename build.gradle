@@ -16,7 +16,7 @@ plugins {
 	id 'nebula.facet' version '3.3.0'
 	id 'nebula.lint' version '6.3.0'
 	id 'org.sonarqube' version '2.2.1'
-	id 'org.springframework.boot' version '1.5.3.RELEASE'
+	id 'org.springframework.boot' version '1.5.6.RELEASE'
 }
 
 ext {
@@ -133,8 +133,8 @@ dependencies {
     compile 'org.springframework.data:spring-data-jpa:1.11.4.RELEASE'
 
 	compile 'org.manuel.teambuilting:teambuilting-messages:0.1.0-SNAPSHOT'
-    compile 'org.manuel.teambuilting:teambuilting-core:0.1.0-SNAPSHOT'
-    compile 'org.manuel.teambuilting:teambuilting-exceptions:0.1.0-SNAPSHOT'
+    compile 'org.manuel.teambuilting:teambuilting-core:0.1.0'
+    compile 'org.manuel.teambuilting:teambuilting-exceptions:0.1.0'
 
     compile 'com.auth0:auth0-spring-security-mvc:1.2.3'
     compile 'com.auth0:auth0-spring-security-api:1.0.0-rc.2'
