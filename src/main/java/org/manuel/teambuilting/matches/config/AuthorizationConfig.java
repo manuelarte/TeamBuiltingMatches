@@ -27,31 +27,32 @@ public class AuthorizationConfig {
     @Bean
     public AppAuthorizationManager appAuthorizationManager() {
 
+        return AppAuthorizationManagerImpl.builder()
+            .forEntity(Match.class, createAppEntityAuthorizationForMatch())
+            .build();
+    }
+
+    private AppEntityAuthorization<Match> createAppEntityAuthorizationForMatch() {
         final AppPermissionAndRightConstraints<Match> visitorRoleForPlayerToTeamSportDetails
-                = new AppPermissionAndRightConstraintsImpl.PermissionAndRightConstraintsImplBuilder()
-                .read(AppRightConstraintOfSeveralConstraints.of(allow()))
-                .build();
+            = new AppPermissionAndRightConstraintsImpl.PermissionAndRightConstraintsImplBuilder()
+            .read(AppRightConstraintOfSeveralConstraints.of(allow()))
+            .build();
 
         final AppPermissionAndRightConstraints<Match> rightsForMatchEntity
-                = new AppPermissionAndRightConstraintsImpl.PermissionAndRightConstraintsImplBuilder()
-                .create(AppRightConstraintOfSeveralConstraints.of(allow()))
-                .read(AppRightConstraintOfSeveralConstraints.of(allow()))
-                .update(AppRightConstraintOfSeveralConstraints.of(deny()))
-                .delete(AppRightConstraintOfSeveralConstraints.of(deny()))
-                .build();
+            = new AppPermissionAndRightConstraintsImpl.PermissionAndRightConstraintsImplBuilder()
+            .create(AppRightConstraintOfSeveralConstraints.of(allow()))
+            .read(AppRightConstraintOfSeveralConstraints.of(allow()))
+            .update(AppRightConstraintOfSeveralConstraints.of(deny()))
+            .delete(AppRightConstraintOfSeveralConstraints.of(deny()))
+            .build();
 
-        final AppEntityAuthorization<Match> rolePermissionAndRightConstraintsMap
-                = AppEntityAuthorizationImpl.<Match>builder()
-                .constraint(AppRole.VISITOR, visitorRoleForPlayerToTeamSportDetails)
-                .constraint(AppRole.ADMIN, rightsForMatchEntity)
-                .constraint(AppRole.FREE, rightsForMatchEntity)
-                .constraint(AppRole.GOLD, rightsForMatchEntity)
-                .constraint(AppRole.PREMIUM, rightsForMatchEntity)
-                .build();
-
-        return AppAuthorizationManagerImpl.builder()
-                .forEntity(Match.class, rolePermissionAndRightConstraintsMap)
-                .build();
+        return AppEntityAuthorizationImpl.<Match>builder()
+            .constraint(AppRole.VISITOR, visitorRoleForPlayerToTeamSportDetails)
+            .constraint(AppRole.ADMIN, rightsForMatchEntity)
+            .constraint(AppRole.FREE, rightsForMatchEntity)
+            .constraint(AppRole.GOLD, rightsForMatchEntity)
+            .constraint(AppRole.PREMIUM, rightsForMatchEntity)
+            .build();
     }
 
 }

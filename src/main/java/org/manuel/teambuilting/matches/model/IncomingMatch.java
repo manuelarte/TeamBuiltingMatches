@@ -27,7 +27,6 @@ import static org.manuel.teambuilting.matches.util.Util.MAX_DURATION_OF_MATCH;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonDeserialize(builder = IncomingMatch.IncomingMatchBuilder.class)
 @Immutable
-@Document
 @Data
 @lombok.Builder(toBuilder = true)
 /**
