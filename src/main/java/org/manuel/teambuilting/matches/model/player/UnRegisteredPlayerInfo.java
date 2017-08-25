@@ -26,6 +26,8 @@ public class UnRegisteredPlayerInfo implements PlayerInfo {
 	@NotNull
 	private final String name;
 
+	private final String picture;
+
 	@JsonPOJOBuilder(withPrefix = "")
 	public static class UnRegisteredPlayerInfoBuilder {
 

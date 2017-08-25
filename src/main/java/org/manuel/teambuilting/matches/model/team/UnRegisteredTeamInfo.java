@@ -31,6 +31,8 @@ public class UnRegisteredTeamInfo implements TeamInfo {
 	@NotEmpty
 	private final String name;
 
+	private final String picture;
+
 	@JsonPOJOBuilder(withPrefix = "")
 	public static class UnRegisteredTeamInfoBuilder {
 
