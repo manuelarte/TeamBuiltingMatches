@@ -1,6 +1,8 @@
 package org.manuel.teambuilting.matches.repositories;
 
 import org.manuel.teambuilting.matches.model.Match;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 
@@ -21,5 +23,9 @@ public interface MatchRepository extends MongoRepository<Match, String> {
      * @return
      */
     Set<Match> findByMatchPartsStartingTimeIsBetween(Date from, Date to);
+
+    Page<Match> getByMatchPartsStartingTimeIsBetween(Date from, Date to, Pageable pageable);
+
+    Page<Match> findByIdIn(Pageable pageable, Set<String> ids);
 
 }

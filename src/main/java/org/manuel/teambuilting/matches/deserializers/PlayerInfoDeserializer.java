@@ -23,7 +23,7 @@ public class PlayerInfoDeserializer extends JsonDeserializer<PlayerInfo> {
     @Override
     public PlayerInfo deserialize(JsonParser p, DeserializationContext ctxt) throws IOException, JsonProcessingException {
         final ObjectMapper mapper = (ObjectMapper) p.getCodec();
-        final ObjectNode root = (ObjectNode) mapper.readTree(p);
+        final ObjectNode root = mapper.readTree(p);
         PlayerInfo playerInfo = null;
         if (root.has(PLAYER_ID)) {
             playerInfo = mapper.readValue(root.toString(), RegisteredPlayerInfo.class);

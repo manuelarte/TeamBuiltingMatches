@@ -6,10 +6,10 @@ import org.junit.runner.RunWith;
 import org.manuel.teambuilting.matches.model.Match;
 import org.manuel.teambuilting.matches.model.MatchImpl;
 import org.manuel.teambuilting.matches.model.TeamInMatch;
-import org.manuel.teambuilting.matches.model.parts.MatchPart;
-import org.manuel.teambuilting.matches.model.parts.MatchPartImpl;
 import org.manuel.teambuilting.matches.model.events.GoalEvent;
 import org.manuel.teambuilting.matches.model.events.MatchEvent;
+import org.manuel.teambuilting.matches.model.parts.MatchPart;
+import org.manuel.teambuilting.matches.model.parts.MatchPartImpl;
 import org.manuel.teambuilting.matches.model.player.PlayerInfo;
 import org.manuel.teambuilting.matches.model.player.RegisteredPlayerInfo;
 import org.manuel.teambuilting.matches.model.player.UnRegisteredPlayerInfo;
@@ -57,7 +57,8 @@ public class MatchRepositoryTest {
 
         final Date startingLookingDate = new Date(startingTime.getTime() - 100);
         final Date endingLookingDate = new Date(startingLookingDate.getTime() + Duration.ofMinutes(90).toMillis());
-        final Set<Match> matchesBetweenTwoInstants = matchRepository.findByMatchPartsStartingTimeIsBetween(startingLookingDate, endingLookingDate);
+        final Set<Match> matchesBetweenTwoInstants = matchRepository.findByMatchPartsStartingTimeIsBetween(
+                startingLookingDate, endingLookingDate);
         assertTrue(matchesBetweenTwoInstants.size() == 1);
     }
 
