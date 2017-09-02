@@ -3,7 +3,6 @@ package org.manuel.teambuilting.matches.model.events;
 import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
-import com.mongodb.annotations.Immutable;
 import lombok.Data;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.manuel.teambuilting.matches.config.Ui;
@@ -20,7 +19,6 @@ import java.util.Date;
 @JsonIgnoreProperties
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonDeserialize(builder = GoalEvent.GoalEventBuilder.class)
-@Immutable
 @Data
 /**
  * @author Manuel Doncel Martos
